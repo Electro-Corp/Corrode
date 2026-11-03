@@ -7,6 +7,7 @@
 namespace Rendering{
     class GraphicsEngine{
     private:
+        
     public:
         GraphicsEngine();
     };
