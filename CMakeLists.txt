@@ -12,3 +12,16 @@ include_directories(Corrode)
 
 # Link the library to the executable
 target_link_libraries(Corrode PRIVATE graphics)
+
+add_custom_command(TARGET Corrode POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:graphics>
+        $<TARGET_FILE_DIR:Corrode>
+)
+
+if(MINGW)
+    target_link_options(Corrode PRIVATE
+        -static-libgcc
+        -static-libstdc++
+    )
+endif()
