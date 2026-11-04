@@ -3,20 +3,19 @@
 */
 // C++ STD
 #include <iostream>
+#include <memory>
 // Graphics Engine include 
 #include <graphics/include/graphics.hpp>
 
 // Global pointer for the graphics engine
-Rendering::GraphicsEngine* graphicsEngine;
+std::unique_ptr<Rendering::GraphicsEngine> graphicsEngine;
 
-int main(int args, char* argv[]){
-    graphicsEngine = new Rendering::GraphicsEngine();
+int main(int argv, char* args[]){
+    graphicsEngine = std::make_unique<Rendering::GraphicsEngine>();
 
     while(1){
         if(graphicsEngine->tick() < 0) break;
     }
-
-    delete(graphicsEngine);
 
     return 0;
 }
