@@ -2,6 +2,7 @@
     Project Corrode
     util/log - Logger utility
 */
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -12,4 +13,4 @@ namespace Util{
     static void Log(std::string location, std::string message){
         std::cout << "[" << location << "] " << message << "\n"; 
     }
-}
+} // Util

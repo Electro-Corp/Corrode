@@ -43,6 +43,8 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     glEnable(GL_CULL_FACE);
     // Enable stencil testing 
     glEnable(GL_STENCIL_TEST);
+    
+    // TODO: setup glfw resizing
 }
 
 int GraphicsEngine::tick(){
