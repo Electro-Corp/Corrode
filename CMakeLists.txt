@@ -9,6 +9,8 @@ add_executable(Corrode Corrode/core/main.cpp)
 
 # Add include
 include_directories(Corrode)
+include_directories(Corrode/graphics/include)
+
 
 # Link the library to the executable
 target_link_libraries(Corrode PRIVATE graphics)

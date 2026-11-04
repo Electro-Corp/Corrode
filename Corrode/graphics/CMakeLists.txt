@@ -1,8 +1,11 @@
 add_library(graphics SHARED
     source/graphics.cpp
+    source/glad.c
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/graphics/include)
+include_directories(${CMAKE_SOURCE_DIR}/Corrode/)
+
 
 target_include_directories(graphics
     PUBLIC

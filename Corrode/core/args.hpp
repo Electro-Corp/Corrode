@@ -1,6 +1,6 @@
 /*
     Project Corrode Argument parser
-    (stolen from another project of mine: https://github.com/Electro-Corp/NetworkTools)
+    (stolen/modified from another project of mine: https://github.com/Electro-Corp/NetworkTools)
 */
 #pragma once
 
