@@ -49,6 +49,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
 
 int GraphicsEngine::tick(){
     if(glfwWindowShouldClose(window)){
+        glfwTerminate();
         return -1;
     }
 

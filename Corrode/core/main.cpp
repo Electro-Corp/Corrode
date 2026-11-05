@@ -26,7 +26,7 @@ int main(int argv, char* args[]){
         }
     }
     if(Util::doesParamExist("-height", argv, args)){
-        try { gOptions.w = std::stoi(Util::getParam("-height", argv, args)); }
+        try { gOptions.h = std::stoi(Util::getParam("-height", argv, args)); }
         catch (std::invalid_argument e) { 
             Util::Log("main", "Invalid argument to -height!\n");
             return -1;
