@@ -47,7 +47,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     // TODO: setup glfw resizing
 }
 
-int GraphicsEngine::tick(){
+int GraphicsEngine::tick(Scene scene){
     if(glfwWindowShouldClose(window)){
         glfwTerminate();
         return -1;
@@ -56,6 +56,11 @@ int GraphicsEngine::tick(){
     // Clear color
     glClearColor(clearColor.r / 255.0f, clearColor.g / 255.0f, clearColor.b / 255.0f, clearColor.a / 255.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+    // Render
+    for(auto& gm : scene.getObjects()){
+        gm->draw();
+    }
 
     glfwSwapBuffers(window);
     glfwPollEvents();

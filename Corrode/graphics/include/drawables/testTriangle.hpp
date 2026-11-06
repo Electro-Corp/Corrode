@@ -12,7 +12,7 @@
 
 namespace Drawable{
     // All drawables extend from Rendering::Drawable 
-    class TestTriangle : Rendering::Drawable{
+    class TestTriangle : public Rendering::Drawable{
     private:
         // Vertices
         float vertices[3][3];

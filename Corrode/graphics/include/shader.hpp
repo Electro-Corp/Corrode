@@ -1,5 +1,5 @@
 /*
-    Project Corrode
+    Project Corrode Graphics Engine (PCGE)
     shader.hpp - Store a shader and its related functions
 */
 #pragma once

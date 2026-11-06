@@ -5,7 +5,13 @@ project(Corrode)
 add_subdirectory(Corrode/graphics)
 
 # Corrode.exe
-add_executable(Corrode Corrode/core/main.cpp)
+add_executable(Corrode 
+    Corrode/core/main.cpp
+    Corrode/core/object.cpp
+    
+    # Objects
+    Corrode/core/objects/testObject.cpp
+)
 
 # Add include
 include_directories(Corrode)

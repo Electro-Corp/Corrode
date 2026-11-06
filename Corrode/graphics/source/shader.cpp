@@ -19,6 +19,7 @@ Shader::Shader(std::string shaderPath, ShaderType shaderType){
     // Get size of file
     std::streamsize size = fileStream.tellg();
     this->shaderSource.resize(size);
+    fileStream.seekg(0, std::ios::beg);
     // Read file
     fileStream.read(&this->shaderSource[0], size);
     // Set shader type
@@ -60,7 +61,7 @@ ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, log);
-        Util::Log("ShaderProgram::ShaderProgram", std::string{"Shader linking failed! Log: " + std::string(log) + "\n"});
+        Util::Log("ShaderProgram::ShaderProgram", std::string{"Shader linking failed! Log:\n" + std::string(log) + "\n"});
         // TODO: Add crash handler or sum
         exit(-1);
     }

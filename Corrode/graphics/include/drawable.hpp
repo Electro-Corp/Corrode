@@ -1,5 +1,5 @@
 /*
-    Project Corrode
+    Project Corrode Graphics Engine (PCGE)
     drawable.hpp - Class for things that can be drawn
 */
 #pragma once

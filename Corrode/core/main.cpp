@@ -9,6 +9,9 @@
 #include <util/log.hpp>
 // Graphics Engine includes
 #include <graphics/include/graphics.hpp>
+#include <graphics/include/scene.hpp>
+// Objects
+#include <core/objects/testObject.hpp>
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1
@@ -38,9 +41,17 @@ int main(int argv, char* args[]){
     // Create graphics engine
     graphicsEngine = std::make_unique<Rendering::GraphicsEngine>(gOptions);
 
-    // Make this loop timer based later
+    // Create test object
+    TestObject tObj;
+
+    // Create scene
+    Rendering::Scene scene;
+    scene.addDrawable(tObj.getDrawable());
+    
+
+    // TODO: Make this loop timer based 
     while(1){
-        if(graphicsEngine->tick() < 0) break;
+        if(graphicsEngine->tick(scene) < 0) break;
     }
 
     return 0;

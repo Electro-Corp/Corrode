@@ -8,6 +8,8 @@
 #include <GLFW/glfw3.h>
 // Corrode
 #include <util/log.hpp>
+// Graphics
+#include <scene.hpp>
 
 namespace Rendering{
     struct Color{
@@ -32,6 +34,6 @@ namespace Rendering{
         GraphicsEngine(EngineInitOptions initOptions);
 
         // Tick graphics system
-        int tick();
+        int tick(Scene scene);
     };
 }
