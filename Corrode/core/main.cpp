@@ -10,6 +10,9 @@
 // Graphics Engine includes
 #include <graphics/include/graphics.hpp>
 
+#define VERSION_MAJOR 0
+#define VERSION_MINOR 1
+
 // Global pointer for the graphics engine
 std::unique_ptr<Rendering::GraphicsEngine> graphicsEngine;
 
