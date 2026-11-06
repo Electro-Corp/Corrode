@@ -44,7 +44,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     // Enable stencil testing 
     glEnable(GL_STENCIL_TEST);
     
-    // TODO: setup glfw resizing
+    glfwSetFramebufferSizeCallback(window, windowResizedCallback);
 }
 
 int GraphicsEngine::tick(Scene scene){

@@ -29,6 +29,9 @@ namespace Rendering{
         GLFWwindow* window;
         // GL
         Color clearColor;
+
+        // Window resize callback
+        static void windowResizedCallback(GLFWwindow* window, int w, int h){ glViewport(0, 0, w, h); }
     public:
         // Create graphics engine with the specfied options
         GraphicsEngine(EngineInitOptions initOptions);
