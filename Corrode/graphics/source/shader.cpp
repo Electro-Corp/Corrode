@@ -4,10 +4,12 @@
 */
 #include <shader.hpp>
 #include <util/log.hpp>
+// glad for OpenGL 
+#include <glad.h>
 
 namespace Rendering{
 
-Shader::Shader(std::string shaderPath){
+Shader::Shader(std::string shaderPath, ShaderType shaderType){
     std::ifstream fileStream(shaderPath, std::ios::ate);
     if(!fileStream.is_open()){
         Util::Log("Shader::Shader", std::string{"Failed to open " + shaderPath + "!\n"});
@@ -19,6 +21,26 @@ Shader::Shader(std::string shaderPath){
     this->shaderSource.resize(size);
     // Read file
     fileStream.read(&this->shaderSource[0], size);
+    // Set shader type
+    this->shaderType = shaderType;
+}
+
+void Shader::compileShader(){
+    this->shaderNum = glCreateShader(shaderType);
+    // Compile source
+    const char* src = this->getShaderSource(); // source
+    glShaderSource(this->shaderNum, 1, &src, NULL);
+    glCompileShader(this->shaderNum);
+    // Check if it compiled
+    int success;
+    char log[512];
+    glGetShaderiv(this->shaderNum, GL_COMPILE_STATUS, &success);
+    if(!success){
+        glGetShaderInfoLog(this->shaderNum, 512, NULL, log);
+        Util::Log("Shader::compileShader", std::string{"Shader compilation failed! Log: " + std::string(log) + "\n"});
+        // TODO: Add crash handler or sum
+        exit(-1);
+    }
 }
 
 } // Rendering

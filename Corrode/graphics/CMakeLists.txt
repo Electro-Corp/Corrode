@@ -1,5 +1,6 @@
 add_library(graphics SHARED
     source/graphics.cpp
+    source/shader.cpp
     source/glad.c
 )
 
