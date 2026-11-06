@@ -2,6 +2,7 @@ add_library(graphics SHARED
     # Graphics Library
     source/graphics.cpp
     source/shader.cpp
+    source/drawable.cpp
     source/glad.c
     # Drawables
     source/drawables/testTriangle.cpp
