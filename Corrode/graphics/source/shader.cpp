@@ -43,4 +43,30 @@ void Shader::compileShader(){
     }
 }
 
+Shader::~Shader(){
+    glDeleteShader(this->shaderNum);
+}
+
+ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
+    this->shaderProgram = glCreateProgram();
+    // Attach the shaders to the program
+    glAttachShader(shaderProgram, vertex->getShader());
+    glAttachShader(shaderProgram, frag->getShader());
+    // Link the program
+    glLinkProgram(shaderProgram);
+    // Check for errors
+    int success;
+    char log[512];
+    glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+    if(!success) {
+        glGetProgramInfoLog(shaderProgram, 512, NULL, log);
+        Util::Log("ShaderProgram::ShaderProgram", std::string{"Shader linking failed! Log: " + std::string(log) + "\n"});
+        // TODO: Add crash handler or sum
+        exit(-1);
+    }
+    // Delete the original Shaders 
+    delete(vertex);
+    delete(frag);
+}
+
 } // Rendering
