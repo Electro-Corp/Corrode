@@ -64,6 +64,9 @@ ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
         // TODO: Add crash handler or sum
         exit(-1);
     }
+    // Delete the OpenGL shader objects
+    glDeleteShader(vertex->getShader());
+    glDeleteShader(frag->getShader());
     // Delete the original Shaders 
     delete(vertex);
     delete(frag);

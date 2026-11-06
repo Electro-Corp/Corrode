@@ -1,7 +1,10 @@
 add_library(graphics SHARED
+    # Graphics Library
     source/graphics.cpp
     source/shader.cpp
     source/glad.c
+    # Drawables
+    source/drawables/testTriangle.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/graphics/include)
