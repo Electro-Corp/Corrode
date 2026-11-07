@@ -73,4 +73,16 @@ ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
     delete(frag);
 }
 
+void ShaderProgram::setBool(const std::string& name, bool value) const {
+    glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), (int)value); 
+}
+
+void ShaderProgram::setInt(const std::string& name, int value) const {
+    glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), value); 
+}
+
+void ShaderProgram::setFloat(const std::string& name, float value) const {
+    glUniform1f(glGetUniformLocation(this->shaderProgram, name.c_str()), value); 
+}
+
 } // Rendering

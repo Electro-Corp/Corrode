@@ -44,6 +44,11 @@ namespace Rendering{
         // Create and link a shader program (WARNING: Destroys the Shader object in the process!!)
         ShaderProgram(Shader* vertex, Shader* frag);
         
+        // Setters for things within shaders
+        void setBool(const std::string& name, bool value) const;
+        void setInt(const std::string& name, int value) const;
+        void setFloat(const std::string& name, float value) const;
+
         // Getters
         unsigned int getShaderProgram(){ return shaderProgram; }
     };
