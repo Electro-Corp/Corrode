@@ -34,7 +34,7 @@ add_custom_command(TARGET Corrode POST_BUILD
 # Copy simulation lib
 add_custom_command(TARGET Corrode POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        $<TARGET_FILE:simuoation>
+        $<TARGET_FILE:simulation>
         $<TARGET_FILE_DIR:Corrode>
 )
 
