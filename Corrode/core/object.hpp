@@ -6,10 +6,12 @@
 // STD includes
 #include <memory>
 // Corrode includes
+#include <common/transform.hpp>
 #include <graphics/include/drawable.hpp>
 
 class Object{
 protected:
+    // Drawable
     std::shared_ptr<Rendering::Drawable> drawable;
 public:
     Object();

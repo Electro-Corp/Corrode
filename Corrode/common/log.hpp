@@ -1,6 +1,6 @@
 /*
     Project Corrode
-    util/log - Logger utility
+    common/log - Logger utility
 */
 #pragma once
 

@@ -5,8 +5,8 @@
 #include <iostream>
 #include <memory>
 // Core includes
-#include <util/args.hpp>
-#include <util/log.hpp>
+#include <core/args.hpp>
+#include <common/log.hpp>
 // Graphics Engine includes
 #include <graphics/include/graphics.hpp>
 #include <graphics/include/scene.hpp>

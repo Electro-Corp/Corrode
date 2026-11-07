@@ -9,6 +9,7 @@ add_library(graphics SHARED
     source/drawables/testTriangle.cpp
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/external)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/graphics/include)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/)
 

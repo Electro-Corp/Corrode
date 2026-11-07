@@ -3,7 +3,7 @@
     shader.cpp - Implement shader and its related functions
 */
 #include <shader.hpp>
-#include <util/log.hpp>
+#include <common/log.hpp>
 // glad for OpenGL 
 #include <glad.h>
 

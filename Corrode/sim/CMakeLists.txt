@@ -1,8 +1,10 @@
 add_library(simulation SHARED
     # Simulation Library
     source/environment.cpp
+    source/entity.cpp
 )
 
+include_directories(${CMAKE_SOURCE_DIR}/external)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/sim/include)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/)
 

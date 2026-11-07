@@ -7,7 +7,7 @@
 #include <glad.h> 
 #include <GLFW/glfw3.h>
 // Corrode
-#include <util/log.hpp>
+#include <common/log.hpp>
 // Graphics
 #include <scene.hpp>
 

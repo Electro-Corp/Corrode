@@ -17,6 +17,7 @@ add_executable(Corrode
 
 # Add include
 include_directories(Corrode)
+include_directories(external)
 include_directories(Corrode/graphics/include)
 include_directories(Corrode/sim/include)
 
