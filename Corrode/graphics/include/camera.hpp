@@ -1,4 +1,11 @@
+/*
+    Project Corrode Graphics Engine (PCGE)
+    camera.hpp
+*/
+
 #pragma once
+
+#include <memory>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
@@ -41,7 +48,7 @@ namespace Rendering {
             void updateProjectionMat();
 
         public: 
-            CameraController *control;
+            std::unique_ptr<CameraController> control;
 
         public:
             Camera();
@@ -62,7 +69,7 @@ namespace Rendering {
             float zoomSensitivity = 0.0025f;
 
         private:
-            Camera *camera;
+            std::unique_ptr<Camera> camera;
 
             bool firstMouse;
             float lastMouseX;
@@ -72,7 +79,7 @@ namespace Rendering {
             float pitch;
             float yaw;
         public:
-            CameraController(Camera *camera);
+            CameraController(std::unique_ptr<Camera> camera);
             void handleInput(GLFWwindow *window);
     };
 }
