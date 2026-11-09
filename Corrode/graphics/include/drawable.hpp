@@ -4,6 +4,9 @@
 */
 #pragma once
 
+#include <common/transform.hpp>
+#include <camera.hpp>
+
 namespace Rendering {
     class Drawable{
     private:
@@ -11,6 +14,6 @@ namespace Rendering {
         Drawable();
 
         // Abstract function for child classes
-        virtual void draw() = 0;
+        virtual void draw(const Rendering::Camera& cam) = 0;
     };
 } // Rendering

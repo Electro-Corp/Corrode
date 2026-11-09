@@ -8,6 +8,7 @@
 #include <memory>
 // Graphics Engine includes
 #include <drawable.hpp>
+#include <camera.hpp>
 #include <shader.hpp>
 
 namespace Drawable{
@@ -23,7 +24,7 @@ namespace Drawable{
     public:
         TestTriangle();
 
-        void draw() override;
+        void draw(const Rendering::Camera& cam) override;
     };
 
 }

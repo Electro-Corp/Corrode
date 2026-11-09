@@ -38,7 +38,7 @@ namespace Rendering {
     };
 
 
-    class Camera {
+    class Camera : public std::enable_shared_from_this<Camera> {
         private: 
             CameraData data;
             CameraMats mats;
@@ -52,6 +52,7 @@ namespace Rendering {
 
         public:
             Camera();
+            void init(); // "true" constructor
             ~Camera();
             void setPosition(vec3 position);
             void setForward(vec3 forward);
@@ -61,6 +62,12 @@ namespace Rendering {
             mat4 inline getProjection() { return mats.projection; }
             vec3 inline getPosition() { return data.position; }
             vec3 inline getForward() { return data.forward; }
+
+            static std::shared_ptr<Camera> create(){
+                std::shared_ptr<Camera> cam = std::shared_ptr<Camera>(new Camera());
+                cam->init();
+                return cam;
+            }
     };
 
     class CameraController {
@@ -69,7 +76,7 @@ namespace Rendering {
             float zoomSensitivity = 0.0025f;
 
         private:
-            std::unique_ptr<Camera> camera;
+            std::shared_ptr<Camera> camera;
 
             bool firstMouse;
             float lastMouseX;
@@ -79,7 +86,7 @@ namespace Rendering {
             float pitch;
             float yaw;
         public:
-            CameraController(std::unique_ptr<Camera> camera);
+            CameraController(std::shared_ptr<Camera> camera);
             void handleInput(GLFWwindow *window);
     };
 }

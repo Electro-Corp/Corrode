@@ -11,5 +11,5 @@ TestObject::TestObject(){
 }
 
 void TestObject::tick(){
-    drawable->draw();
+    
 }

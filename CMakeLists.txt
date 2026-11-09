@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.23)
 project(Corrode)
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+
 # Graphics library
 add_subdirectory(Corrode/graphics)
 add_subdirectory(Corrode/sim)

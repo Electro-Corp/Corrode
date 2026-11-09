@@ -17,7 +17,7 @@ public:
     Object();
 
     // 
-    virtual void tick() { drawable->draw(); }; 
+    virtual void tick() = 0;
 
     // Getter
     std::shared_ptr<Rendering::Drawable> getDrawable() { return drawable; }

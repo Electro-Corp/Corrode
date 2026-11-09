@@ -10,6 +10,7 @@
 // Graphics Engine includes
 #include <graphics/include/graphics.hpp>
 #include <graphics/include/scene.hpp>
+#include <graphics/include/camera.hpp>
 // Objects
 #include <core/objects/testObject.hpp>
 
@@ -43,6 +44,9 @@ int main(int argv, char* args[]){
 
     // Create test object
     TestObject tObj;
+    
+    // Create camera
+    std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
 
     // Create scene
     Rendering::Scene scene;
@@ -51,7 +55,7 @@ int main(int argv, char* args[]){
 
     // TODO: Make this loop timer based 
     while(1){
-        if(graphicsEngine->tick(scene) < 0) break;
+        if(graphicsEngine->tick(scene, *camera) < 0) break;
     }
 
     return 0;

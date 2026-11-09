@@ -47,7 +47,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     glfwSetFramebufferSizeCallback(window, windowResizedCallback);
 }
 
-int GraphicsEngine::tick(Scene scene){
+int GraphicsEngine::tick(Scene scene, const Rendering::Camera& cam){
     if(glfwWindowShouldClose(window)){
         glfwTerminate();
         return -1;
@@ -59,7 +59,7 @@ int GraphicsEngine::tick(Scene scene){
 
     // Render
     for(auto& gm : scene.getObjects()){
-        gm->draw();
+        gm->draw(cam);
     }
 
     glfwSwapBuffers(window);
