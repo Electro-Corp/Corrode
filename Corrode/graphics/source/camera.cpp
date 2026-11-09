@@ -8,9 +8,12 @@
 namespace Rendering{
 
 Camera::Camera() {
-    control = std::make_unique<CameraController>(this);
     updateViewMat();
     updateProjectionMat();
+}
+
+void Camera::init(){
+    control = std::make_unique<CameraController>(this->shared_from_this());
 }
 
 Camera::~Camera() {
@@ -44,7 +47,7 @@ void Camera::updateProjectionMat() {
     this->mats.projection[1][1] *= -1;
 }
 
-CameraController::CameraController(std::unique_ptr<Camera> camera) {
+CameraController::CameraController(std::shared_ptr<Camera> camera) {
     this->camera.swap(camera);
     firstMouse = true;
     distance = 1.0f;

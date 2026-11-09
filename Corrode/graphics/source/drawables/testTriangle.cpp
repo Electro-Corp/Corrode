@@ -2,10 +2,9 @@
     Project Corrode Graphics Engine (PCGE)
     testTriangle.cpp - Drawable triangle (for testing OpenGL)
 */
+#include <glad.h>
 // Root
 #include <drawables/testTriangle.hpp>
-// OpenGL
-#include <glad.h>
 
 namespace Drawable{
 
@@ -44,7 +43,7 @@ TestTriangle::TestTriangle(){
     this->shaderProgram = std::make_unique<Rendering::ShaderProgram>(vertexShader, fragShader);
 } 
 
-void TestTriangle::draw(){
+void TestTriangle::draw(const Rendering::Camera& cam){
     glUseProgram(this->shaderProgram->getShaderProgram());
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);

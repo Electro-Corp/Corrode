@@ -3,10 +3,13 @@ add_library(graphics SHARED
     source/graphics.cpp
     source/shader.cpp
     source/drawable.cpp
+    source/camera.cpp
     source/scene.cpp
     source/glad.c
     # Drawables
     source/drawables/testTriangle.cpp
+    source/drawables/mesh.cpp
+
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

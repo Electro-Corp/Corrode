@@ -51,7 +51,8 @@ public:
     }
 
     Vector3 getPositionVec3(){
-
+        // to shut up gcc
+        return Vector3(0.0, 0.0, 0.0);
     }
 
     static glm::vec3 internalToGLM(Vector3 vec){
