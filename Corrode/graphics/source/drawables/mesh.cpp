@@ -41,14 +41,15 @@ void Mesh::initMesh(){
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
     // Normal
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
-    glEnableVertexAttribArray(1);
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
+    //glEnableVertexAttribArray(1);
     // Texture coords
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
+    // because of commenting, 1,2 is not what it originally said, it would've been 2, 2
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
     glEnableVertexAttribArray(2);
     // TBN coords
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)));
-    glEnableVertexAttribArray(3);
+    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)));
+    //glEnableVertexAttribArray(3);
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -109,14 +110,16 @@ float* Mesh::packVerts() {
 			fVerts[baseMod] = vertices[i].pos.x;
 			fVerts[1 + baseMod] = vertices[i].pos.y;
 			fVerts[2 + baseMod] = vertices[i].pos.z;
-			fVerts[3 + baseMod] = vertices[i].normal.x;
-			fVerts[4 + baseMod] = vertices[i].normal.y;
-			fVerts[5 + baseMod] = vertices[i].normal.z;
-            fVerts[6 + baseMod] = vertices[i].texCoord.x;
-			fVerts[7 + baseMod] = vertices[i].texCoord.y;
-            fVerts[8 + baseMod] = vertices[i].tangents.x;
-            fVerts[9 + baseMod] = vertices[i].tangents.y;
-            fVerts[10 + baseMod] = vertices[i].tangents.z;
+            // Don't do normals for now
+			// fVerts[3 + baseMod] = vertices[i].normal.x;
+			// fVerts[4 + baseMod] = vertices[i].normal.y;
+			// fVerts[5 + baseMod] = vertices[i].normal.z;
+            fVerts[/*6*/ 3 + baseMod] = vertices[i].texCoord.x;
+			fVerts[/*7*/ 4 + baseMod] = vertices[i].texCoord.y;
+            // Don't do tangents 
+            // fVerts[8 + baseMod] = vertices[i].tangents.x;
+            // fVerts[9 + baseMod] = vertices[i].tangents.y;
+            // fVerts[10 + baseMod] = vertices[i].tangents.z;
 		}
 	}
 	return fVerts;
