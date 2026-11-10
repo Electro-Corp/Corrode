@@ -2,6 +2,9 @@ add_library(simulation SHARED
     # Simulation Library
     source/environment.cpp
     source/entity.cpp
+    # Terrain
+    source/terrain.cpp
+    source/generators/flat_generator.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

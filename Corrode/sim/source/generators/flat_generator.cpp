@@ -1,9 +1,16 @@
-#include "generators/flat_generator.hpp"
-#include "terrain.hpp"
+/*
+    Project Corrode Simulation Engine
+    flat_generator.cpp - TerrainGenerator that generates a flat plane
+*/
+
+#include <generators/flat_generator.hpp>
+#include <terrain.hpp>
 #include <cstdio>
 
-FlatTerrainGenerator::FlatTerrainGenerator(float height)
-    : height_(height) {}
+namespace Simulation {
+
+    FlatTerrainGenerator::FlatTerrainGenerator(float height)
+        : height_(height) {}
 
     void FlatTerrainGenerator::generate(Terrain &terrain, const TerrainGenerationSettings &settings) const {
         for(std::size_t z = 0; z < terrain.depth(); z++) {
@@ -12,3 +19,5 @@ FlatTerrainGenerator::FlatTerrainGenerator(float height)
             }
         }
     }
+
+} // SIMULATION

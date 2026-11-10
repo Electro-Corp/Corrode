@@ -1,10 +1,10 @@
 /*
     Project Corrode Graphics Engine (PCGE)
-    testTriangle.cpp - Drawable triangle (for testing OpenGL)
+    test_triangle.cpp - Drawable triangle (for testing OpenGL)
 */
 #include <glad.h>
 // Root
-#include <drawables/testTriangle.hpp>
+#include <drawables/test_triangle.hpp>
 
 namespace Drawable{
 

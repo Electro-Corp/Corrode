@@ -1,6 +1,6 @@
 /*
     Project Corrode Graphics Engine (PCGE)
-    mesh.hpp - holds and renders mesh data 
+    mesh.hpp - holds and renders mesh data (modified from my other project: https://github.com/Electro-Corp/LARE)
 */
 #pragma once
 

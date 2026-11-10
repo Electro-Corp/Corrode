@@ -1,6 +1,14 @@
-#include "terrain.hpp"
+/*
+    Project Corrode Simulation Engine
+    flat_generator.hpp - An implementation of TerrainGenerator that generates a flat plane
+*/
 
+// Simulation include
+#include <terrain.hpp>
+// C++ STD
 #include <stdexcept>
+
+namespace Simulation {
 
 Terrain::Terrain(std::size_t width, std::size_t depth, float cellSize)
     : width_(width),
@@ -47,3 +55,5 @@ void Terrain::validateCoordinates(std::size_t x, std::size_t z) const {
         throw std::out_of_range("Terrain coordinate is outside terrain bounds.");
     }
 }
+
+} // SIMULATION
