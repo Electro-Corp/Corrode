@@ -2,7 +2,6 @@
     Project Corrode main
 */
 // C++ STD
-#include <iostream>
 #include <memory>
 // Core includes
 #include <core/args.hpp>
@@ -25,15 +24,15 @@ int main(int argv, char* args[]){
     Rendering::EngineInitOptions gOptions = {"Corrode", 600, 800};
     gOptions.clearColor = {12.0f, 50.0f, 100.0f, 255.0f};
     // Check if args override
-    if(Util::doesParamExist("-width", argv, args)){
-        try { gOptions.w = std::stoi(Util::getParam("-width", argv, args)); }
+    if(Util::doesParamExist(const_cast<char*>("-width"), argv, args)){
+        try { gOptions.w = std::stoi(Util::getParam(const_cast<char*>("-width"), argv, args)); }
         catch (std::invalid_argument e) { 
             Util::Log("main", "Invalid argument to -width!\n");
             return -1;
         }
     }
-    if(Util::doesParamExist("-height", argv, args)){
-        try { gOptions.h = std::stoi(Util::getParam("-height", argv, args)); }
+    if(Util::doesParamExist(const_cast<char*>("-height"), argv, args)){
+        try { gOptions.h = std::stoi(Util::getParam(const_cast<char*>("-height"), argv, args)); }
         catch (std::invalid_argument e) { 
             Util::Log("main", "Invalid argument to -height!\n");
             return -1;
