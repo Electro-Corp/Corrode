@@ -1,8 +1,8 @@
 #pragma once
 
 #include <cstddef>
-#include <iterator>
 #include <vector>
+#include <terrain_cell.hpp>
 
 
 class Terrain {
@@ -26,4 +26,5 @@ class Terrain {
         float cellSize_;
 
         std::vector<float> heights_;
+        std::vector<TerrainCell> cells_;
 };
