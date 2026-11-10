@@ -7,7 +7,7 @@ add_library(graphics SHARED
     source/scene.cpp
     source/glad.c
     # Drawables
-    source/drawables/testTriangle.cpp
+    source/drawables/test_triangle.cpp
     source/drawables/mesh.cpp
 
 )

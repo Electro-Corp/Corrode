@@ -1,6 +1,6 @@
 /*
     Project Corrode Graphics Engine (PCGE)
-    testTriangle.hpp - Drawable triangle (for testing OpenGL)
+    test_triangle.hpp - Drawable triangle (for testing OpenGL)
 */
 #ifndef DRAWABLE_TEST_TRIANGLE
 #define DRAWABLE_TEST_TRIANGLE

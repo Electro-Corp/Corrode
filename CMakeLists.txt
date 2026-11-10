@@ -14,7 +14,7 @@ add_executable(Corrode
     Corrode/core/object.cpp
     
     # Objects
-    Corrode/core/objects/testObject.cpp
+    Corrode/core/objects/test_object.cpp
 )
 
 # Add include

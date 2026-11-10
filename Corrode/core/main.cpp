@@ -12,7 +12,7 @@
 #include <graphics/include/scene.hpp>
 #include <graphics/include/camera.hpp>
 // Objects
-#include <core/objects/testObject.hpp>
+#include <core/objects/test_object.hpp>
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1

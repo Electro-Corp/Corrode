@@ -1,6 +1,6 @@
 /*
     Project Corrode
-    testObject.hpp - Extends Object to preform tests
+    test_object.hpp - Extends Object to preform tests
 */
 #include <core/object.hpp>
 
