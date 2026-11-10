@@ -16,7 +16,7 @@ Corrode is first a god-sim sandbox built arount generated terrain and changing e
 
  ## Terrain data
  Map will be a grid of cells? Cells will init have data:
-  - elevation
+  - Each corner of a cell will have an elevation
   - moisture / water amount
   - temp
   - soil comp / fertility
