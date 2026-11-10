@@ -6,7 +6,6 @@
 
 #include <string>
 #include <cstring>
-#include <iostream>
 
 namespace Util {
     // Get variable in command line
