@@ -7,7 +7,6 @@
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
-#include <glad.h>
 
 #include <common/transform.hpp>
 #include <shader.hpp>
@@ -17,14 +16,16 @@
 namespace Drawable{
     struct Vertex {
 		glm::vec3 pos;
-        glm::vec3 normal;
+        //glm::vec3 normal;
 		glm::vec2 texCoord;
-		glm::vec3 tangents;
+		//glm::vec3 tangents;
     };
 
     struct Texture {
         unsigned int id;
         std::string type, path;
+
+		Texture(unsigned int i, std::string t, std::string p) : id(i), type(std::move(t)), path(std::move(p)) {}
     };
 
     class Mesh : public Rendering::Drawable {

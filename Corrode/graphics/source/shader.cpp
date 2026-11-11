@@ -10,9 +10,10 @@
 namespace Rendering{
 
 Shader::Shader(std::string shaderPath, ShaderType shaderType){
+    Util::Log("Shader::Shader", std::string{"Loading shader " + shaderPath});
     std::ifstream fileStream(shaderPath, std::ios::ate);
     if(!fileStream.is_open()){
-        Util::Log("Shader::Shader", std::string{"Failed to open " + shaderPath + "!\n"});
+        Util::Log("Shader::Shader", std::string{"Failed to open " + shaderPath + "!"});
         // TODO: Add crash handler or sum
         exit(-1);
     }
@@ -38,7 +39,7 @@ void Shader::compileShader(){
     glGetShaderiv(this->shaderNum, GL_COMPILE_STATUS, &success);
     if(!success){
         glGetShaderInfoLog(this->shaderNum, 512, NULL, log);
-        Util::Log("Shader::compileShader", std::string{"Shader compilation failed! Log: " + std::string(log) + "\n"});
+        Util::Log("Shader::compileShader", std::string{"Shader compilation failed! Log: " + std::string(log)});
         // TODO: Add crash handler or sum
         exit(-1);
     }
@@ -61,7 +62,7 @@ ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
     glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
     if(!success) {
         glGetProgramInfoLog(shaderProgram, 512, NULL, log);
-        Util::Log("ShaderProgram::ShaderProgram", std::string{"Shader linking failed! Log:\n" + std::string(log) + "\n"});
+        Util::Log("ShaderProgram::ShaderProgram", std::string{"Shader linking failed! Log:\n" + std::string(log)});
         // TODO: Add crash handler or sum
         exit(-1);
     }

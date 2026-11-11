@@ -15,6 +15,7 @@ add_executable(Corrode
     
     # Objects
     Corrode/core/objects/test_object.cpp
+    Corrode/core/objects/terrain_object.cpp
 )
 
 # Add include

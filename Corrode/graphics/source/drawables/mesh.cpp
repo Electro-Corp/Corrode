@@ -4,6 +4,8 @@
 */
 #include <drawables/mesh.hpp>
 
+#include <glad.h>
+
 namespace Drawable{
 
 Mesh::Mesh(std::vector<Vertex> verts, std::vector<uint16_t> inds, std::vector<Texture> textures, std::shared_ptr<Rendering::ShaderProgram> shader) {

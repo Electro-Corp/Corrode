@@ -12,6 +12,7 @@
 #include <graphics/include/camera.hpp>
 // Objects
 #include <core/objects/test_object.hpp>
+#include <core/objects/terrain_object.hpp>
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1
@@ -41,15 +42,15 @@ int main(int argv, char* args[]){
     // Create graphics engine
     graphicsEngine = std::make_unique<Rendering::GraphicsEngine>(gOptions);
 
-    // Create test object
-    TestObject tObj;
+    // Create test terrain
+    TerrainObject terrainObject;
     
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
 
     // Create scene
     Rendering::Scene scene;
-    scene.addDrawable(tObj.getDrawable());
+    scene.addDrawable(terrainObject.getDrawable());
     
 
     // TODO: Make this loop timer based 
