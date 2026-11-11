@@ -33,7 +33,7 @@ TerrainObject::TerrainObject(){
     unsigned char* textureData = new unsigned char[width * depth * 3];
 
     // Generate vertices (and texture) based on terrain gen
-    std::vector<Drawable::Vertex> vertices;
+    
     for(int i = 0; i < width; i++){
         for(int j = 0; j < depth; j++){
             int h = terrain->heightAt(i, j);
@@ -63,7 +63,6 @@ TerrainObject::TerrainObject(){
     //delete textureData;
     
     // Generate indices
-    std::vector<uint16_t> ind;
     // Adapted from https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/indexbuffers/Tutorial%208%20-%20Index%20Buffers.pdf
     for(int i = 0; i < width; i++){
         for(int j = 0; j < depth; j++){
@@ -85,7 +84,9 @@ TerrainObject::TerrainObject(){
     
 
     // Shader
-    this->shaderProgram = std::make_shared<Rendering::ShaderProgram>(new Rendering::Shader("../assets/shaders/terrain.vert", Rendering::VERTEX), new Rendering::Shader("../assets/shaders/terrain.frag", Rendering::FRAGMENT));
+    Rendering::Shader* vertex = new Rendering::Shader("../assets/shaders/terrain.vert", Rendering::VERTEX);
+    Rendering::Shader* fragment = new Rendering::Shader("../assets/shaders/terrain.frag", Rendering::FRAGMENT);
+    this->shaderProgram = std::make_shared<Rendering::ShaderProgram>(vertex, fragment);
 
     // Final drawable
     this->drawable = std::make_shared<Drawable::Mesh>(vertices, ind, textures, shaderProgram);

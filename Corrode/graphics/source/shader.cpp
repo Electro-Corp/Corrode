@@ -25,6 +25,8 @@ Shader::Shader(std::string shaderPath, ShaderType shaderType){
     fileStream.read(&this->shaderSource[0], size);
     // Set shader type
     this->shaderType = shaderType;
+    // Not compiled yet
+    this->compiled = false;
 }
 
 void Shader::compileShader(){
@@ -43,6 +45,7 @@ void Shader::compileShader(){
         // TODO: Add crash handler or sum
         exit(-1);
     }
+    this->compiled = true;
 }
 
 Shader::~Shader(){
@@ -50,6 +53,10 @@ Shader::~Shader(){
 }
 
 ShaderProgram::ShaderProgram(Shader* vertex, Shader* frag){
+    // Check if shaders have been compiled yet
+    if(!vertex->wasCompiled()) vertex->compileShader();
+    if(!frag->wasCompiled()) frag->compileShader();
+    // Create shader program
     this->shaderProgram = glCreateProgram();
     // Attach the shaders to the program
     glAttachShader(shaderProgram, vertex->getShader());

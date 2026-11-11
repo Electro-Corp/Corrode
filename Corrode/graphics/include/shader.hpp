@@ -22,6 +22,8 @@ namespace Rendering{
         ShaderType shaderType;
         // Internal OpenGL shader
         unsigned int shaderNum;
+        // 
+        bool compiled;
     public:
         // Create a shader object
         Shader(std::string filePath, ShaderType shaderType);
@@ -31,6 +33,7 @@ namespace Rendering{
         // Getters
         const char* getShaderSource() { return shaderSource.c_str(); }
         unsigned int getShader() { return shaderNum; }
+        bool wasCompiled() { return compiled; }
 
         // Destroy
         ~Shader();
