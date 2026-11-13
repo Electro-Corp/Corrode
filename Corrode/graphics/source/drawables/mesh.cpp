@@ -36,8 +36,6 @@ void Mesh::initMesh(){
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, getIndsRealSize(), packInds(), GL_STATIC_DRAW);
     
-    float* vals = packVerts(); // i don't remember why this is here but im scared to remove it until we have actual rendering
-
     // Attributes!
     // Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
@@ -48,7 +46,7 @@ void Mesh::initMesh(){
     // Texture coords
     // because of commenting, 1,2 is not what it originally said, it would've been 2, 2
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
-    glEnableVertexAttribArray(2);
+    glEnableVertexAttribArray(1);
     // TBN coords
     //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)));
     //glEnableVertexAttribArray(3);
@@ -101,7 +99,7 @@ void Mesh::draw(const Rendering::Camera& cam){
     // Draw
     glBindVertexArray(VAO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glDrawElements(GL_TRIANGLES, getIndsRealSize(), GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 }
 
 float* Mesh::packVerts() {
