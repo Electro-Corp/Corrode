@@ -12,6 +12,8 @@
 // C++
 #include <memory>
 
+#define SCALE_FACTOR 1
+
 class TerrainObject : public Object {
 private:
     std::unique_ptr<Simulation::Terrain> terrain;

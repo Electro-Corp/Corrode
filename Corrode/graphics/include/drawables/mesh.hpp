@@ -13,12 +13,16 @@
 #include <drawable.hpp>
 #include <camera.hpp>
 
+#define NUM_VERT_DATA 5
+
 namespace Drawable{
     struct Vertex {
 		glm::vec3 pos;
         //glm::vec3 normal;
 		glm::vec2 texCoord;
 		//glm::vec3 tangents;
+		
+		Vertex(glm::vec3 p, glm::vec2 t) : pos(p), texCoord(t) {}
     };
 
     struct Texture {
@@ -94,7 +98,7 @@ namespace Drawable{
 		}
 
 		int getVertsRealSize() {
-			return sizeof(float) * (11 * vertices.size());
+			return sizeof(float) * (NUM_VERT_DATA * vertices.size());
 		}
 
 		int getIndsRealSize() {

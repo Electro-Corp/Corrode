@@ -12,7 +12,7 @@
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
-    this->terrain = std::make_unique<Simulation::Terrain>(300, 300);
+    this->terrain = std::make_unique<Simulation::Terrain>(257, 257);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     flatTerrainGenerator.generate(*(this->terrain), {20323120});
 
@@ -33,21 +33,18 @@ TerrainObject::TerrainObject(){
     unsigned char* textureData = new unsigned char[width * depth * 3];
 
     // Generate vertices (and texture) based on terrain gen
-    
     for(int i = 0; i < width; i++){
         for(int j = 0; j < depth; j++){
             int h = terrain->heightAt(i, j);
             // Generate vertice
-            vertices.push_back(
-                {
-                    glm::vec3((i, h, j)),
-                    glm::vec2((float) i / (float) width, (float) i / (float)width)
-                }
+            vertices.emplace_back(
+                glm::vec3(i * SCALE_FACTOR, h * SCALE_FACTOR, j * SCALE_FACTOR),
+                glm::vec2((float) i / (float) width, (float) j / (float)depth)
             );
             // Generate texture pixel
             unsigned int location = (i + (j * width)) * 3;
-            textureData[location] = h;
-            textureData[location + 1] = h;
+            textureData[location] = i;
+            textureData[location + 1] = j;
             textureData[location + 2] = h;
         }
     }
@@ -64,8 +61,8 @@ TerrainObject::TerrainObject(){
     
     // Generate indices
     // Adapted from https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/indexbuffers/Tutorial%208%20-%20Index%20Buffers.pdf
-    for(int i = 0; i < width; i++){
-        for(int j = 0; j < depth; j++){
+    for(int i = 0; i < width - 1; i++){
+        for(int j = 0; j < depth - 1; j++){
             // "Patch"
             int a = (i * width) + j;
             int b = ((i + 1) * width) + j;

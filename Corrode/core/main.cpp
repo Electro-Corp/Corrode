@@ -51,11 +51,12 @@ int main(int argv, char* args[]){
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
 
+    camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 1000.0f);
+    camera->setPosition(glm::vec3(100.0f, 110.0f, 300.0f));
+
     // Create scene
     Rendering::Scene scene;
     scene.addDrawable(terrainObject.getDrawable());
-    scene.addDrawable(tObject.getDrawable());
-
     
 
     // TODO: Make this loop timer based 

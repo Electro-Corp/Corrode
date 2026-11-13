@@ -45,7 +45,7 @@ void Mesh::initMesh(){
     //glEnableVertexAttribArray(1);
     // Texture coords
     // because of commenting, 1,2 is not what it originally said, it would've been 2, 2
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3)));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
     glEnableVertexAttribArray(1);
     // TBN coords
     //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)));
@@ -106,7 +106,7 @@ float* Mesh::packVerts() {
 	float* fVerts = (float*)malloc(this->getVertsRealSize());
 	if (fVerts) {
 		for (int i = 0; i < vertices.size(); i++) {
-			int baseMod = i * 11;
+			int baseMod = i * NUM_VERT_DATA;//11;
 			fVerts[baseMod] = vertices[i].pos.x;
 			fVerts[1 + baseMod] = vertices[i].pos.y;
 			fVerts[2 + baseMod] = vertices[i].pos.z;
