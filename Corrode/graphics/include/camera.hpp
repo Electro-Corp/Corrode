@@ -28,8 +28,8 @@ namespace Rendering {
 	};
 
     struct CameraData {
-        vec3 position;
-        vec3 forward;
+        vec3 position = vec3(0.0f, 0.0f, 0.0f);
+        vec3 forward = vec3(0.0f, 0.0f, -1.0f);
         vec3 up = vec3(0.0f, 1.0f, 0.0f);
 
         float fov = radians(45.0f);

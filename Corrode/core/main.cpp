@@ -45,12 +45,17 @@ int main(int argv, char* args[]){
     // Create test terrain
     TerrainObject terrainObject;
     
+    // Triangle
+    TestObject tObject;
+
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
 
     // Create scene
     Rendering::Scene scene;
     scene.addDrawable(terrainObject.getDrawable());
+    scene.addDrawable(tObject.getDrawable());
+
     
 
     // TODO: Make this loop timer based 

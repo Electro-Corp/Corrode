@@ -21,7 +21,7 @@ Mesh::Mesh(std::vector<Vertex> verts, std::vector<uint16_t> inds, std::vector<Te
 }
 
 void Mesh::initMesh(){
-     // Lets get our data in !
+    // Lets get our data in !
     glGenVertexArrays(1, &(VAO));
     glGenBuffers(1, &(VBO));
     glGenBuffers(1, &(EBO));

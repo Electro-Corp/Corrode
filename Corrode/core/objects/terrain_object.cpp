@@ -12,8 +12,8 @@
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
-    this->terrain = std::make_unique<Simulation::Terrain>(50, 50);
-    Simulation::FlatTerrainGenerator flatTerrainGenerator;
+    this->terrain = std::make_unique<Simulation::Terrain>(300, 300);
+    Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     flatTerrainGenerator.generate(*(this->terrain), {20323120});
 
     //
@@ -46,9 +46,9 @@ TerrainObject::TerrainObject(){
             );
             // Generate texture pixel
             unsigned int location = (i + (j * width)) * 3;
-            textureData[location] = h / 255;
-            textureData[location + 1] = h / 255;
-            textureData[location + 2] = h / 255;
+            textureData[location] = h;
+            textureData[location + 1] = h;
+            textureData[location + 2] = h;
         }
     }
 

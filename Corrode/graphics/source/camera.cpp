@@ -39,12 +39,12 @@ void Camera::setPerspective(float fov, float aspectRatio, float near, float far)
 }
 
 void Camera::updateViewMat() {
-   this->mats.view = lookAt(data.position, data.forward, data.up); 
+   this->mats.view = lookAt(data.position, data.position + data.forward, data.up); 
 }
 
 void Camera::updateProjectionMat() {
     this->mats.projection = perspective(data.fov, data.aspectRatio, data.near, data.far);
-    this->mats.projection[1][1] *= -1;
+    //this->mats.projection[1][1] *= -1;
 }
 
 CameraController::CameraController(std::shared_ptr<Camera> camera) {
