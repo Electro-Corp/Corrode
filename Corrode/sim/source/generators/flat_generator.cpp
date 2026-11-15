@@ -12,6 +12,10 @@ namespace Simulation {
     FlatTerrainGenerator::FlatTerrainGenerator(float height)
         : height_(height) {}
 
+    const char* FlatTerrainGenerator::name() const {
+        return "Flat Terrain";
+    }
+
     void FlatTerrainGenerator::generate(Terrain &terrain, const TerrainGenerationSettings &settings) const {
         for(std::size_t z = 0; z < terrain.depth(); z++) {
             for(std::size_t x = 0; x < terrain.width(); x++) {

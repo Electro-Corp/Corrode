@@ -1,28 +1,19 @@
 /*
     Project Corrode Simulation Engine
-    perlin_generator.hpp - An implementation of TerrainGenerator that uses Perlin noise
+    perlin_noise.hpp - An implementation of Perlin noise
 */
 
 #pragma once
 
-#include <terrain_generator.hpp>
-
-#define CELL_SIZE 4
-
 namespace Simulation {
 
-    class PerlinTerrainGenerator final : public TerrainGenerator {
+    class PerlinNoise final {
         public:
-            explicit PerlinTerrainGenerator(double seed);
+            explicit PerlinNoise(double seed);
 
-            void generate(
-                Terrain& terrain,
-                const TerrainGenerationSettings& settings
-            ) const override;
-        private:
             // Perlin functions
             double perlin(double x, double y, double z) const;
-            
+        private:
             // Ken Perlin's fade function
             static double fade(double t){ return t * t * t * (t * (t * 6 - 15) + 10); }
             // Lerp between two values 
