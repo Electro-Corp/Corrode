@@ -28,7 +28,7 @@ TerrainObject::TerrainObject(){
     // constexpr TerrainDebugView debugView = TerrainDebugView::ElevationBands;
     
     Simulation::TerrainGenerationSettings terrainSettings{
-        4323122924, // Scale 
+        4323122924, // Seed 
         2.0f,       // Frequency
         6,          // Octaves
         160.0f,      // Scale
@@ -57,18 +57,24 @@ TerrainObject::TerrainObject(){
         }
     }
 
-    // Initialize texture
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    textures.emplace_back(textureID, std::string("texture_diffuse"), std::string("null"));
+    // Initialize diffuse texture
+    unsigned int diffuseID;
+    glGenTextures(1, &diffuseID);
+    textures.emplace_back(diffuseID, std::string("texture_diffuse"), std::string("null"));
+    // Initialize specular texture
+    unsigned int specularID;
+    glGenTextures(1, &specularID);
+    textures.emplace_back(specularID, std::string("texture_specular"), std::string("null"));
     // Temporary texture storage
-    std::vector<unsigned char> textureData(width * depth * 3);
+    std::vector<unsigned char> diffuseData(width * depth * 3);
+    std::vector<unsigned char> specularData(width * depth * 3);
 
     // Generate vertices (and texture) based on terrain gen
     for(std::size_t z = 0; z < depth; z++){
         for(std::size_t x = 0; x < width; x++){
             float height = terrain->heightAt(x, z);
+            bool belowWater = terrain->belowWaterAt(x, z);
+
             RGB color = terrainDebugColor(
                 debugView,
                 *terrain,
@@ -87,15 +93,29 @@ TerrainObject::TerrainObject(){
             );
             // Generate texture pixel
             unsigned int location = (x + (z * width)) * 3;
-            textureData[location] = static_cast<unsigned char>(color.r);
-            textureData[location + 1] = static_cast<unsigned char>(color.g);
-            textureData[location + 2] = static_cast<unsigned char>(color.b);
+            diffuseData[location] = static_cast<unsigned char>(color.r);
+            diffuseData[location + 1] = static_cast<unsigned char>(color.g);
+            diffuseData[location + 2] = static_cast<unsigned char>(color.b);
+            // Specular
+            specularData[location] = static_cast<unsigned char>(50 * belowWater);
+            specularData[location + 1] = static_cast<unsigned char>(50 * belowWater);
+            specularData[location + 2] = static_cast<unsigned char>(50 * belowWater);
         }
     }
 
-    // Copy data to texture
+    // Copy data to diffuse texture
+    glBindTexture(GL_TEXTURE_2D, diffuseID);
     glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, depth, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData.data());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, depth, 0, GL_RGB, GL_UNSIGNED_BYTE, diffuseData.data());
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // Copy data to specular texture
+    glBindTexture(GL_TEXTURE_2D, specularID);
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, depth, 0, GL_RGB, GL_UNSIGNED_BYTE, specularData.data());
     glGenerateMipmap(GL_TEXTURE_2D);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -120,6 +140,17 @@ TerrainObject::TerrainObject(){
             ind.push_back(d);
             ind.push_back(c);
         }
+    }
+
+    // Generate normals
+    for(int i = 0; i < ind.size(); i+=3){
+        uint16_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
+        // Generate normal
+        glm::vec3 normal = glm::cross(vertices[b].pos - vertices[a].pos, vertices[c].pos - vertices[a].pos);
+        // Add normal
+        vertices[a].normal = normal;
+        vertices[b].normal = normal;
+        vertices[c].normal = normal;
     }
 
     // Shader

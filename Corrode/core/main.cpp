@@ -62,7 +62,7 @@ int main(int argv, char* args[]){
         glm::vec3(1.0, 1.0, 1.0),
         glm::vec3(1.0, 1.0, 1.0),
         glm::vec3(1.0, 1.0, 1.0),
-        glm::vec3(200.0f, 300.0f, 200.0f)
+        glm::vec3(500.0f, 300.0f, 500.0f)
     );
 
     // Create scene
