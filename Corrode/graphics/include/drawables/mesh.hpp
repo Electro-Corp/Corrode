@@ -6,6 +6,7 @@
 
 #include <vector>
 #include <string>
+#include <cstdint>
 #include <glm/glm.hpp>
 
 #include <common/transform.hpp>
@@ -49,7 +50,7 @@ namespace Drawable{
 		 *  So why bother using that many verts when v0 and v5 are the same and v3 and v2 are?
 		 *  Yay for index buffers
 		 */
-		std::vector<uint16_t> indices;
+        std::vector<std::uint32_t> indices;
         // Textures 
         std::vector<Texture> textures;
 
@@ -67,7 +68,7 @@ namespace Drawable{
          */
         unsigned int VBO, VAO, EBO;
 
-		Mesh(std::vector<Vertex> verts, std::vector<uint16_t> inds, std::vector<Texture> textures, std::shared_ptr<Rendering::ShaderProgram> shader);
+		Mesh(std::vector<Vertex> verts, std::vector<std::uint32_t> inds, std::vector<Texture> textures, std::shared_ptr<Rendering::ShaderProgram> shader);
 
         void initMesh();
 
@@ -87,11 +88,11 @@ namespace Drawable{
 			modified = true;
 		}
 
-		std::vector<uint16_t> getIndicies() {
+		std::vector<std::uint32_t> getIndicies() {
 			return indices;
 		}
 
-		void setIndicies(std::vector<uint16_t> inds) {
+		void setIndicies(std::vector<std::uint32_t> inds) {
 			this->indices = inds;
 			modified = true;
 		}
@@ -101,7 +102,7 @@ namespace Drawable{
 		}
 
 		int getIndsRealSize() {
-			return sizeof(float) * indices.size();
+			return sizeof(std::uint32_t) * indices.size();
 		}
 	};
 }
