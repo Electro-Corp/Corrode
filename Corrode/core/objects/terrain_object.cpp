@@ -17,7 +17,8 @@ TerrainObject::TerrainObject(){
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     //flatTerrainGenerator.generate(*(this->terrain), {20323120});
-    noiseTerrainGenerator.generate(*(this->terrain), {20323120, 1.0f, 8});
+    // noiseTerrainGenerator.generate(*(this->terrain), {20323120, 1.0f, 3});
+    noiseTerrainGenerator.generate(*(this->terrain), {4323122924, 1.0f, 4, 100.0f});
 
     //
     // What follows is a lot of testing stuff

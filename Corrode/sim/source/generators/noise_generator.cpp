@@ -25,12 +25,17 @@ namespace Simulation {
                 double octaveFrequency = settings.frequency;
                 double maxAmplitude = 0.0;
                 for(int octave = 0; octave < settings.octaves; octave++) {
-                    total += perlin.perlin((double) x / terrain.width() * octaveFrequency, (double) z / terrain.depth() * octaveFrequency, 0.5) * 100.0;
+//                    total += perlin.perlin((double) x / terrain.width() * octaveFrequency, (double) z / terrain.depth() * octaveFrequency, 0.5) * 100.0f;
+                    total += perlin.perlin((double) x / terrain.width() * octaveFrequency, (double) z / terrain.depth() * octaveFrequency, 0.5) * amplitude;
                     maxAmplitude += amplitude;
                     amplitude *= 0.9;
                     octaveFrequency *= 2.0;
                 }
-                terrain.setHeight(x, z, total / maxAmplitude);
+                double normalizedNoise = maxAmplitude > 0.0 ? total / maxAmplitude : 0.0;
+                double height = (normalizedNoise + 1.0) * 0.5;
+                if(height < 0.0) height = 0.0;
+                if(height > 1.0) height = 1.0;
+                terrain.setHeight(x, z, (static_cast<float>(height) - 0.5f) * settings.scale);
             }
         }
     }

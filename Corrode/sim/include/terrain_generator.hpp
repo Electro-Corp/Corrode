@@ -5,16 +5,15 @@
 
 #pragma once
 
-#include <cstdint>
-
 namespace Simulation{
 
     class Terrain;
 
     struct TerrainGenerationSettings {
-        std::uint32_t seed = 0;
+        double seed = 0;
         float frequency = 1.0f;
         int octaves = 8;
+        float scale = 50.0f;
     };
 
     class TerrainGenerator {
