@@ -11,8 +11,8 @@ namespace Rendering{
     class Light{
     private:
     public:
-        glm::vec3 color, specular, diffuse;
+        glm::vec3 color, ambient, specular, diffuse, position;
 
-        Light(glm::vec3 color, glm::vec3 specular, glm::vec3 diffuse);
+        Light(glm::vec3 color, glm::vec3 ambient, glm::vec3 specular, glm::vec3 diffuse, glm::vec3 position);
     };
 }

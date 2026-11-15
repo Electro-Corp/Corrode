@@ -13,7 +13,7 @@
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
-    this->terrain = std::make_unique<Simulation::Terrain>(256 * 4, 256 * 4);
+    this->terrain = std::make_unique<Simulation::Terrain>(1024, 1024);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     //flatTerrainGenerator.generate(*(this->terrain), {20323120});

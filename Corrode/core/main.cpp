@@ -10,6 +10,7 @@
 #include <graphics/include/graphics.hpp>
 #include <graphics/include/scene.hpp>
 #include <graphics/include/camera.hpp>
+#include <graphics/include/light.hpp>
 // Objects
 #include <core/objects/test_object.hpp>
 #include <core/objects/terrain_object.hpp>
@@ -50,10 +51,18 @@ int main(int argv, char* args[]){
 
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
-
     camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 1000.0f);
-    camera->setPosition(glm::vec3(100.0f, 100.0f, 300.0f));
+    camera->setPosition(glm::vec3(400.0f, 300.0f, 1000.0f));
     camera->setForward(glm::vec3(0.0f, -0.5f, -1.0f));
+
+    // Lighting
+    Rendering::Light sun(
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(200.0f, 300.0f, 200.0f)
+    );
 
     // Create scene
     Rendering::Scene scene;
@@ -62,7 +71,7 @@ int main(int argv, char* args[]){
 
     // TODO: Make this loop timer based 
     while(1){
-        if(graphicsEngine->tick(scene, *camera) < 0) break;
+        if(graphicsEngine->tick(scene, *camera, sun) < 0) break;
     }
 
     return 0;
