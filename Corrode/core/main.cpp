@@ -58,11 +58,11 @@ int main(int argv, char* args[]){
 
     // Lighting
     Rendering::Light sun(
-        glm::vec3(1.0, 1.0, 1.0),
-        glm::vec3(1.0, 1.0, 1.0),
-        glm::vec3(1.0, 1.0, 1.0),
-        glm::vec3(1.0, 1.0, 1.0),
-        glm::vec3(500.0f, 300.0f, 500.0f)
+        glm::vec3(1.0, 1.0, 1.0), // color
+        glm::vec3(1.0, 1.0, 1.0), // ambient
+        glm::vec3(1.0, 1.0, 1.0), // specular
+        glm::vec3(1.0, 1.0, 1.0), // diffuse
+        glm::vec3(500.0f, 300.0f, 500.0f) // position
     );
 
     // Create scene

@@ -1,3 +1,8 @@
+/*
+    Project Corrode Simulation Engine
+    water_level_pass.cpp - Water pass on Terrain
+*/
+
 #include <passes/water_level_pass.hpp>
 #include <terrain.hpp>
 #include <terrain_generator.hpp>

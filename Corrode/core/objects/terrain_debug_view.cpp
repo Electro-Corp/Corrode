@@ -30,7 +30,7 @@ RGB terrainDebugColor(
     switch(view) {
         case TerrainDebugView::WaterClassification:
             return terrain.belowWaterAt(x, z)
-                ? RGB{255.0f, 0.0f, 255.0f}
+                ? RGB{35.0f, 25.0f, 255.0f}
                 : RGB{0.0f, 255.0f, 0.0f};
         case TerrainDebugView::ElevationBands:
             if(elevation < waterLevel - 10.0f) return RGB{40.0f, 80.0f, 190.0f};

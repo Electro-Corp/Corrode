@@ -1,3 +1,8 @@
+/*
+    Project Corrode Simulation Engine
+    base_elevation_pass.cpp - Base elevation pass for terrain 
+*/
+
 #include <passes/base_elevation_pass.hpp>
 #include <generators/perlin_noise.hpp>
 #include <terrain.hpp>
@@ -17,7 +22,7 @@ namespace Simulation {
                 for(int octave = 0; octave < settings.octaves; octave++) {
                     total += perlin.perlin((double) x / terrain.width() * octaveFrequency, (double) z / terrain.depth() * octaveFrequency, 0.5) * amplitude;
                     maxAmplitude += amplitude;
-                    amplitude *= 0.9;
+                    amplitude *= 0.6;
                     octaveFrequency *= 2.0;
                 }
                 double normalizedNoise = maxAmplitude > 0.0 ? total / maxAmplitude : 0.0;

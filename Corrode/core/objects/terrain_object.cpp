@@ -7,6 +7,7 @@
 #include <core/objects/terrain_debug_view.hpp>
 // Common
 #include <common/rgb.hpp>
+#include <common/log.hpp>
 // Graphics
 #include <graphics/include/drawables/mesh.hpp>
 // Terrain/simulation
@@ -19,12 +20,14 @@
 #include <vector>
 
 TerrainObject::TerrainObject(){
+    Util::Log("TerrainObject::TerrainObject", "Generating Terrain, please wait...");
+    // Generate terrain
     this->terrain = std::make_unique<Simulation::Terrain>(1024, 1024);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::CoordinateGrid;
-    constexpr TerrainDebugView debugView = TerrainDebugView::HeightGradient;
+    constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::ElevationBands;
     
     Simulation::TerrainGenerationSettings terrainSettings{
@@ -41,8 +44,8 @@ TerrainObject::TerrainObject(){
     waterLevelPass.apply(*(this->terrain), terrainSettings);
 
     //
-    // What follows is a lot of testing stuff
-    // that should be redone 
+    // What follows is a lot of stuff
+    // that should be moved into its own function probabbly
     //
 
     std::size_t width = terrain->width();
@@ -97,9 +100,9 @@ TerrainObject::TerrainObject(){
             diffuseData[location + 1] = static_cast<unsigned char>(color.g);
             diffuseData[location + 2] = static_cast<unsigned char>(color.b);
             // Specular
-            specularData[location] = static_cast<unsigned char>(50 * belowWater);
-            specularData[location + 1] = static_cast<unsigned char>(50 * belowWater);
-            specularData[location + 2] = static_cast<unsigned char>(50 * belowWater);
+            specularData[location] = static_cast<unsigned char>((50 + height) * (belowWater));
+            specularData[location + 1] = static_cast<unsigned char>((50 + height) * (belowWater));
+            specularData[location + 2] = static_cast<unsigned char>((50 + height) * (belowWater));
         }
     }
 
@@ -160,6 +163,8 @@ TerrainObject::TerrainObject(){
 
     // Final drawable
     this->drawable = std::make_shared<Drawable::Mesh>(vertices, ind, textures, shaderProgram);
+
+    Util::Log("TerrainObject::TerrainObject", "Terrain generated.");
 }
 
 void TerrainObject::tick(){

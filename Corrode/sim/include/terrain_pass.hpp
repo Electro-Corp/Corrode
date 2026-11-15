@@ -1,3 +1,8 @@
+/*
+    Project Corrode Simulation Engine
+    terrain_pass.hpp - Abstract classes for terrain passes
+*/
+
 #pragma once
 
 namespace Simulation {

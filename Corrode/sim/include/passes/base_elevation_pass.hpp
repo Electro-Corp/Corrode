@@ -1,3 +1,8 @@
+/*
+    Project Corrode Simulation Engine
+    base_elevation_pass.hpp - Base elevation pass for terrain 
+*/
+
 #pragma once
 
 #include <terrain_pass.hpp>
