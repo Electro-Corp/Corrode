@@ -19,8 +19,7 @@ namespace Drawable{
         float vertices[3][3];
         // OpenGL Vertex buffers (TODO: probabbly make a common class for this)
         unsigned int VAO, VBO;
-        // Shaders
-        std::unique_ptr<Rendering::ShaderProgram> shaderProgram;
+        
     public:
         TestTriangle();
 

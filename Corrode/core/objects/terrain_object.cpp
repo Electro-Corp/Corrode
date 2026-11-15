@@ -15,7 +15,7 @@
 TerrainObject::TerrainObject(){
     this->terrain = std::make_unique<Simulation::Terrain>(256, 256);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
-    Simulation::PerlinTerrainGenerator perlinTerrainGenerator(4323122924);
+    Simulation::PerlinTerrainGenerator perlinTerrainGenerator(422924);
     //flatTerrainGenerator.generate(*(this->terrain), {20323120});
     perlinTerrainGenerator.generate(*(this->terrain), {20323120, 8});
 
@@ -42,7 +42,8 @@ TerrainObject::TerrainObject(){
             // Generate vertice
             vertices.emplace_back(
                 glm::vec3(i * SCALE_FACTOR, h * SCALE_FACTOR, j * SCALE_FACTOR),
-                glm::vec2((float) i / (float) width, (float) j / (float)depth)
+                glm::vec2((float) i / (float) width, (float) j / (float)depth),
+                glm::vec3(0.0, 0.0, 0.0) // dummy normal for until we get indices
             );
             // Generate texture pixel
             unsigned int location = (i + (j * width)) * 3;
@@ -81,7 +82,17 @@ TerrainObject::TerrainObject(){
             ind.push_back(c);
         }
     }
-    
+
+    // Generate normals
+    for(int i = 0; i < ind.size(); i+=3){
+        uint16_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
+        // Generate normal
+        glm::vec3 normal = glm::cross(vertices[b].pos - vertices[a].pos, vertices[c].pos - vertices[a].pos);
+        // Add normal
+        vertices[a].normal = normal;
+        vertices[b].normal = normal;
+        vertices[c].normal = normal;
+    }
 
     // Shader
     Rendering::Shader* vertex = new Rendering::Shader("../assets/shaders/terrain.vert", Rendering::VERTEX);

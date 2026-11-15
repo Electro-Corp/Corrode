@@ -59,6 +59,16 @@ int GraphicsEngine::tick(Scene scene, const Rendering::Camera& cam){
 
     // Render
     for(auto& gm : scene.getObjects()){
+
+        // TODO: LIGHTING SHOULD NOT BE HARD CODED
+        int shaderId = gm->shaderProgram->getShaderProgram();
+        glUseProgram(shaderId);
+        gm->shaderProgram->setVec3("viewPosition", const_cast<Rendering::Camera&>(cam).getPosition());
+        gm->shaderProgram->setVec3("light.ambient", glm::vec3(1.0, 1.0, 1.0));
+        gm->shaderProgram->setVec3("light.specular", glm::vec3(1.0, 1.0, 1.0));
+        gm->shaderProgram->setVec3("light.diffuse", glm::vec3(1.0, 1.0, 1.0));
+        gm->shaderProgram->setVec3("light.position", glm::vec3(200.0f, 300.0f, 200.0f));
+
         gm->draw(cam);
     }
 

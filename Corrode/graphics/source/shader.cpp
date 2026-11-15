@@ -85,12 +85,16 @@ void ShaderProgram::setBool(const std::string& name, bool value) const {
     glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), (int)value); 
 }
 
-void ShaderProgram::setInt(const std::string& name, int value) const {
+void ShaderProgram::setInt(const std::string& name, const int value) const {
     glUniform1i(glGetUniformLocation(this->shaderProgram, name.c_str()), value); 
 }
 
-void ShaderProgram::setFloat(const std::string& name, float value) const {
+void ShaderProgram::setFloat(const std::string& name, const float value) const {
     glUniform1f(glGetUniformLocation(this->shaderProgram, name.c_str()), value); 
+}
+
+void ShaderProgram::setVec3(const std::string &name, const glm::vec3 value) const {
+    glUniform3f(glGetUniformLocation(this->shaderProgram, name.c_str()), value.x, value.y, value.z); 
 }
 
 } // Rendering

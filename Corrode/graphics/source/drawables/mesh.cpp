@@ -13,9 +13,9 @@ Mesh::Mesh(std::vector<Vertex> verts, std::vector<uint16_t> inds, std::vector<Te
 	this->indices = inds;
     this->textures = textures;
 	this->modified = true;
-    this->shader = shader;
+    this->shaderProgram = shader;
 
-    this->shaderProgram = this->shader->getShaderProgram();
+    this->shaderID = this->shaderProgram->getShaderProgram();
 
     initMesh();
 }
@@ -40,13 +40,13 @@ void Mesh::initMesh(){
     // Position
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
     glEnableVertexAttribArray(0);
-    // Normal
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
-    //glEnableVertexAttribArray(1);
     // Texture coords
     // because of commenting, 1,2 is not what it originally said, it would've been 2, 2
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3)));
     glEnableVertexAttribArray(1);
+    // Normal
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(glm::vec3) + sizeof(glm::vec2)));
+    glEnableVertexAttribArray(2);
     // TBN coords
     //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(2 * sizeof(glm::vec3) + sizeof(glm::vec2)));
     //glEnableVertexAttribArray(3);
@@ -59,14 +59,14 @@ void Mesh::initMesh(){
 
 void Mesh::draw(const Rendering::Camera& cam){
     // Use shader program
-    glUseProgram(shaderProgram);
+    glUseProgram(shaderID);
     // Apply transform
-    int transformLocation = glGetUniformLocation(shaderProgram, "transform");
+    int transformLocation = glGetUniformLocation(shaderID, "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform.transform));
     // Setup camera
-    int modelLocation = glGetUniformLocation(shaderProgram, "model");
-    int viewLocation = glGetUniformLocation(shaderProgram, "view");
-    int projLocation = glGetUniformLocation(shaderProgram, "proj");
+    int modelLocation = glGetUniformLocation(shaderID, "model");
+    int viewLocation = glGetUniformLocation(shaderID, "view");
+    int projLocation = glGetUniformLocation(shaderID, "proj");
     // Set values within shader
     glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(transform.transform));
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(const_cast<Rendering::Camera&>(cam).getView()));
@@ -91,7 +91,7 @@ void Mesh::draw(const Rendering::Camera& cam){
         }else if(name == "texture_roughness"){
             num = std::to_string(roughN++);
         }
-        int matLocation = glGetUniformLocation(shaderProgram, std::string{"material." + name + num}.c_str());
+        int matLocation = glGetUniformLocation(shaderID, std::string{"material." + name + num}.c_str());
         glUniform1i(matLocation, i);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
@@ -110,12 +110,11 @@ float* Mesh::packVerts() {
 			fVerts[baseMod] = vertices[i].pos.x;
 			fVerts[1 + baseMod] = vertices[i].pos.y;
 			fVerts[2 + baseMod] = vertices[i].pos.z;
-            // Don't do normals for now
-			// fVerts[3 + baseMod] = vertices[i].normal.x;
-			// fVerts[4 + baseMod] = vertices[i].normal.y;
-			// fVerts[5 + baseMod] = vertices[i].normal.z;
             fVerts[/*6*/ 3 + baseMod] = vertices[i].texCoord.x;
 			fVerts[/*7*/ 4 + baseMod] = vertices[i].texCoord.y;
+            fVerts[5 + baseMod] = vertices[i].normal.x;
+			fVerts[6 + baseMod] = vertices[i].normal.y;
+			fVerts[7 + baseMod] = vertices[i].normal.z;
             // Don't do tangents 
             // fVerts[8 + baseMod] = vertices[i].tangents.x;
             // fVerts[9 + baseMod] = vertices[i].tangents.y;

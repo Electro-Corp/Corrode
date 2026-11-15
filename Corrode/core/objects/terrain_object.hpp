@@ -21,7 +21,7 @@ private:
     std::shared_ptr<Rendering::ShaderProgram> shaderProgram;
     // Textures
     std::vector<Drawable::Texture> textures;
-    // Vertices and indices
+    // Vertices, indices, and normals
     std::vector<Drawable::Vertex> vertices;
     std::vector<uint16_t> ind;
 public:

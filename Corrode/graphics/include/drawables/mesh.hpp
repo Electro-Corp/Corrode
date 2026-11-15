@@ -13,16 +13,16 @@
 #include <drawable.hpp>
 #include <camera.hpp>
 
-#define NUM_VERT_DATA 5
+#define NUM_VERT_DATA 8
 
 namespace Drawable{
     struct Vertex {
 		glm::vec3 pos;
-        //glm::vec3 normal;
 		glm::vec2 texCoord;
+		glm::vec3 normal;
 		//glm::vec3 tangents;
 		
-		Vertex(glm::vec3 p, glm::vec2 t) : pos(p), texCoord(t) {}
+		Vertex(glm::vec3 p, glm::vec2 t, glm::vec3 n) : pos(p), texCoord(t), normal(n) {}
     };
 
     struct Texture {
@@ -54,8 +54,7 @@ namespace Drawable{
         std::vector<Texture> textures;
 
 		// Shader program
-		std::shared_ptr<Rendering::ShaderProgram> shader; // Save this in case we find a use for keeping it here
-		unsigned int shaderProgram;
+		unsigned int shaderID;
 	public:
 		// Has our mesh been modified?
 		bool modified = false;
