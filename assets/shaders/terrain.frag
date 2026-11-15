@@ -29,8 +29,7 @@ uniform vec3 viewPosition;
 
 void main()
 {
-    vec3 norm = normalize(Normal);
-    norm = normalize(norm * 2.0 - 1.0);
+    vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
 
     vec3 lDir = normalize(light.position - FragPos);
     vec3 vDir = normalize(viewPosition - FragPos);

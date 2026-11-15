@@ -20,6 +20,10 @@ namespace Simulation{
 
             float heightAt(std::size_t x, std::size_t z) const;
             void setHeight(std::size_t x, std::size_t z, float height);
+            bool belowWaterAt(std::size_t x, std::size_t z) const;
+            void setBelowWater(std::size_t x, std::size_t z, bool belowWater);
+            TerrainCell& cellAt(std::size_t x, std::size_t z);
+            const TerrainCell& cellAt(std::size_t x, std::size_t z) const;
             
 
         private:
@@ -30,7 +34,6 @@ namespace Simulation{
             std::size_t depth_;
             float cellSize_;
 
-            std::vector<float> heights_;
             std::vector<TerrainCell> cells_;
     };
 }

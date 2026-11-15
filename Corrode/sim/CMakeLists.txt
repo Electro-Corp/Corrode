@@ -7,6 +7,7 @@ add_library(simulation SHARED
     source/generators/flat_generator.cpp
     source/generators/perlin_noise.cpp
     source/generators/noise_generator.cpp
+    source/passes/water_level_pass.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

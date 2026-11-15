@@ -14,6 +14,7 @@ namespace Simulation{
         float frequency = 1.0f;
         int octaves = 8;
         float scale = 50.0f;
+        float water_level = 0.0f;
     };
 
     class TerrainGenerator {

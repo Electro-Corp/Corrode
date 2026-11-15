@@ -16,4 +16,6 @@ struct Water {
 struct TerrainCell {
     Soil soil; 
     Water water;
+    float elevation = 0.0f;
+    bool belowWater = false;
 };

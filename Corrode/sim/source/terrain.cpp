@@ -14,7 +14,7 @@ Terrain::Terrain(std::size_t width, std::size_t depth, float cellSize)
     : width_(width),
       depth_(depth),
       cellSize_(cellSize),
-      heights_(width * depth, 0.0f) {
+      cells_(width * depth) {
     if (width == 0 || depth == 0) {
         throw std::invalid_argument("Terrain dimensions must be greater than zero.");
     }
@@ -37,13 +37,29 @@ float Terrain::cellSize() const noexcept {
 }
 
 float Terrain::heightAt(std::size_t x, std::size_t z) const {
-    validateCoordinates(x, z);
-    return heights_[index(x, z)];
+    return cellAt(x, z).elevation;
 }
 
 void Terrain::setHeight(std::size_t x, std::size_t z, float height) {
+    cellAt(x, z).elevation = height;
+}
+
+bool Terrain::belowWaterAt(std::size_t x, std::size_t z) const {
+    return cellAt(x, z).belowWater;
+}
+
+void Terrain::setBelowWater(std::size_t x, std::size_t z, bool belowWater) {
+    cellAt(x, z).belowWater = belowWater;
+}
+
+TerrainCell& Terrain::cellAt(std::size_t x, std::size_t z) {
     validateCoordinates(x, z);
-    heights_[index(x, z)] = height;
+    return cells_[index(x, z)];
+}
+
+const TerrainCell& Terrain::cellAt(std::size_t x, std::size_t z) const {
+    validateCoordinates(x, z);
+    return cells_[index(x, z)];
 }
 
 std::size_t Terrain::index(std::size_t x, std::size_t z) const {
