@@ -8,16 +8,16 @@
 #include <graphics/include/drawables/mesh.hpp>
 // Terrain/simulation
 #include <sim/include/generators/flat_generator.hpp>
-#include <sim/include/generators/perlin_generator.hpp>
+#include <sim/include/generators/noise_generator.hpp>
 // glad
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
     this->terrain = std::make_unique<Simulation::Terrain>(256, 256);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
-    Simulation::PerlinTerrainGenerator perlinTerrainGenerator(4323122924);
+    Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     //flatTerrainGenerator.generate(*(this->terrain), {20323120});
-    perlinTerrainGenerator.generate(*(this->terrain), {20323120, 8});
+    noiseTerrainGenerator.generate(*(this->terrain), {20323120, 8, 1});
 
     //
     // What follows is a lot of testing stuff

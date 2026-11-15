@@ -13,12 +13,15 @@ namespace Simulation{
 
     struct TerrainGenerationSettings {
         std::uint32_t seed = 0;
+        float frequency = 1.0f;
         int octaves = 8;
     };
 
     class TerrainGenerator {
         public:
             virtual ~TerrainGenerator() = default;
+
+            virtual const char* name() const = 0;
 
             virtual void generate(
                 Terrain& terrain, 

@@ -1,20 +1,18 @@
 /*
     Project Corrode Simulation Engine
-    perlin_generator.cpp - TerrainGenerator that uses Perlin noise
+    perlin_noise.cpp - An implementation of Perlin noise
 */
 
 // Sim includes
-#include <generators/perlin_generator.hpp>
-#include <terrain.hpp>
+#include <generators/perlin_noise.hpp>
 // C++ STD includes
-#include <cstdio>
 #include <numeric>
 #include <random>
 #include <algorithm>
 
 namespace Simulation {
 
-    PerlinTerrainGenerator::PerlinTerrainGenerator(double seed) {
+    PerlinNoise::PerlinNoise(double seed) {
         // Generate random permutation values based on seed
         std::mt19937 gen(seed);
 
@@ -27,25 +25,9 @@ namespace Simulation {
         for(int i = 0; i < 512; i++) this->p[i] = values[i % 256];
     }
 
-    void PerlinTerrainGenerator::generate(Terrain &terrain, const TerrainGenerationSettings &settings) const {
-        for(std::size_t z = 0; z < terrain.depth(); z++) {
-            for(std::size_t x = 0; x < terrain.width(); x++) {
-                // Preform octave generation
-                double total = 0.0, f = 1.0, a = 1.0, maxValue = 0.0;
-                for(int i = 0; i < settings.octaves; i++){
-                    total += perlin((double) x / terrain.width(), (double) z / terrain.depth(), 0.5) * 100.0;
-                    maxValue += a;
-                    a *= 0.9;
-                    f *= 2;
-                }
-                terrain.setHeight(x, z, total / maxValue);
-            }
-        }
-    }
-    
     // Adapted from https://adrianb.io/2014/08/09/perlinnoise.html's C# implementation, which itself is adapted 
     // from Ken Perlin's 2002 Java implementation 
-    double PerlinTerrainGenerator::perlin(double x, double y, double z) const{
+    double PerlinNoise::perlin(double x, double y, double z) const{
         // Unit cube positions
         int xI = (int) x & 255, yI = (int) y & 255, zI = (int) z & 255;
         double xF = x - (int)x, yF = y - (int)y, zF = z - (int)z;

@@ -4,3 +4,5 @@ graph
 .clangd
 *.sh
 compile_commands.json
+local-notes
+.cache

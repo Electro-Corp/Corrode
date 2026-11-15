@@ -13,6 +13,8 @@ namespace Simulation {
         public:
             explicit FlatTerrainGenerator(float height = 0.0f);
 
+            const char* name() const override;
+
             void generate(
                 Terrain& terrain,
                 const TerrainGenerationSettings& settings
