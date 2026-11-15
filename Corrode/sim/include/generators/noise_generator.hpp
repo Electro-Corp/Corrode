@@ -6,6 +6,8 @@
 #pragma once
 
 #include <terrain_generator.hpp>
+#include <passes/base_elevation_pass.hpp>
+#include <passes/water_level_pass.hpp>
 
 namespace Simulation {
 
@@ -17,6 +19,9 @@ namespace Simulation {
                 Terrain& terrain,
                 const TerrainGenerationSettings& settings
             ) const override;
+        private:
+            BaseElevationPass baseElevationPass_;
+            WaterLevelPass waterLevelPass_;
     };
 
 }

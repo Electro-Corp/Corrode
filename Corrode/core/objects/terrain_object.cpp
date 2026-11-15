@@ -4,6 +4,7 @@
 */
 // Core
 #include <core/objects/terrain_object.hpp>
+#include <core/objects/terrain_debug_view.hpp>
 // Common
 #include <common/rgb.hpp>
 // Graphics
@@ -21,6 +22,10 @@ TerrainObject::TerrainObject(){
     this->terrain = std::make_unique<Simulation::Terrain>(1024, 1024);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
+    // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
+    // constexpr TerrainDebugView debugView = TerrainDebugView::CoordinateGrid;
+    constexpr TerrainDebugView debugView = TerrainDebugView::HeightGradient;
+    // constexpr TerrainDebugView debugView = TerrainDebugView::ElevationBands;
     
     Simulation::TerrainGenerationSettings terrainSettings{
         4323122924, // Scale 
@@ -42,6 +47,15 @@ TerrainObject::TerrainObject(){
 
     std::size_t width = terrain->width();
     std::size_t depth = terrain->depth();
+    float minimumElevation = terrain->heightAt(0, 0);
+    float maximumElevation = minimumElevation;
+    for(std::size_t z = 0; z < depth; z++) {
+        for(std::size_t x = 0; x < width; x++) {
+            const float elevation = terrain->heightAt(x, z);
+            if(elevation < minimumElevation) minimumElevation = elevation;
+            if(elevation > maximumElevation) maximumElevation = elevation;
+        }
+    }
 
     // Initialize texture
     unsigned int textureID;
@@ -55,13 +69,15 @@ TerrainObject::TerrainObject(){
     for(std::size_t z = 0; z < depth; z++){
         for(std::size_t x = 0; x < width; x++){
             float height = terrain->heightAt(x, z);
-            bool belowWater = terrain->belowWaterAt(x, z);
-            float normalizedHeight = height / terrainSettings.scale + 0.5f;
-            if(normalizedHeight < 0.0f) normalizedHeight = 0.0f;
-            if(normalizedHeight > 1.0f) normalizedHeight = 1.0f;
-            RGB color = belowWater
-                ? RGB{90.0f, 188.0f, 216.0f}
-                : RGB{90.0f, 180.0f + normalizedHeight * 55.0f, 216.0f};
+            RGB color = terrainDebugColor(
+                debugView,
+                *terrain,
+                x,
+                z,
+                minimumElevation,
+                maximumElevation,
+                terrainSettings.water_level
+            );
 
             // Generate vertice
             vertices.emplace_back(
@@ -88,8 +104,8 @@ TerrainObject::TerrainObject(){
     
     // Generate indices
     // Adapted from https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/indexbuffers/Tutorial%208%20-%20Index%20Buffers.pdf
-    for(int z = 0; z < depth - 1; z++){
-        for(int x = 0; x < width - 1; x++){
+    for(std::size_t z = 0; z < depth - 1; z++){
+        for(std::size_t x = 0; x < width - 1; x++){
             // "Patch"
             std::uint32_t a = (z * width) + x;
             std::uint32_t b = (z * width) + (x + 1);
