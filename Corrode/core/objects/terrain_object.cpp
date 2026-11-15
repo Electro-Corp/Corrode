@@ -26,7 +26,7 @@ TerrainObject::TerrainObject(){
         4323122924, // Scale 
         2.0f,       // Frequency
         6,          // Octaves
-        320.0f,      // Scale
+        160.0f,      // Scale
         0.0f        // Water Height
     };
 
@@ -61,7 +61,7 @@ TerrainObject::TerrainObject(){
             if(normalizedHeight > 1.0f) normalizedHeight = 1.0f;
             RGB color = belowWater
                 ? RGB{90.0f, 188.0f, 216.0f}
-                : RGB{40.0f, 80.0f + normalizedHeight * 175.0f, 40.0f};
+                : RGB{90.0f, 180.0f + normalizedHeight * 55.0f, 216.0f};
 
             // Generate vertice
             vertices.emplace_back(
