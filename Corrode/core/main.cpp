@@ -10,6 +10,7 @@
 #include <graphics/include/graphics.hpp>
 #include <graphics/include/scene.hpp>
 #include <graphics/include/camera.hpp>
+#include <graphics/include/light.hpp>
 // Objects
 #include <core/objects/test_object.hpp>
 #include <core/objects/terrain_object.hpp>
@@ -55,6 +56,15 @@ int main(int argv, char* args[]){
     camera->setPosition(glm::vec3(512.0f, 400.0f, 1100.0f));
     camera->setForward(glm::normalize(glm::vec3(0.0f, -400.0f, -588.0f)));
 
+    // Lighting
+    Rendering::Light sun(
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(1.0, 1.0, 1.0),
+        glm::vec3(200.0f, 300.0f, 200.0f)
+    );
+
     // Create scene
     Rendering::Scene scene;
     scene.addDrawable(terrainObject.getDrawable());
@@ -62,7 +72,7 @@ int main(int argv, char* args[]){
 
     // TODO: Make this loop timer based 
     while(1){
-        if(graphicsEngine->tick(scene, *camera) < 0) break;
+        if(graphicsEngine->tick(scene, *camera, sun) < 0) break;
     }
 
     return 0;

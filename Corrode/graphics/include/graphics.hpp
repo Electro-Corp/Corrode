@@ -12,6 +12,7 @@
 // Graphics
 #include <scene.hpp>
 #include <camera.hpp>
+#include <light.hpp>
 
 namespace Rendering{
     struct Color{
@@ -39,6 +40,6 @@ namespace Rendering{
         GraphicsEngine(EngineInitOptions initOptions);
 
         // Tick graphics system
-        int tick(Scene scene, const Rendering::Camera& cam);
+        int tick(Scene scene, const Rendering::Camera& cam, Light sun);
     };
 }

@@ -5,6 +5,7 @@ add_library(graphics SHARED
     source/drawable.cpp
     source/camera.cpp
     source/scene.cpp
+    source/light.cpp
     source/glad.c
     # Drawables
     source/drawables/test_triangle.cpp
