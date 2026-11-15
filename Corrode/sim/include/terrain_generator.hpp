@@ -13,6 +13,7 @@ namespace Simulation{
 
     struct TerrainGenerationSettings {
         std::uint32_t seed = 0;
+        int octaves = 8;
     };
 
     class TerrainGenerator {

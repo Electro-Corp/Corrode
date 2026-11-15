@@ -8,13 +8,16 @@
 #include <graphics/include/drawables/mesh.hpp>
 // Terrain/simulation
 #include <sim/include/generators/flat_generator.hpp>
+#include <sim/include/generators/perlin_generator.hpp>
 // glad
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
-    this->terrain = std::make_unique<Simulation::Terrain>(257, 257);
+    this->terrain = std::make_unique<Simulation::Terrain>(256, 256);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
-    flatTerrainGenerator.generate(*(this->terrain), {20323120});
+    Simulation::PerlinTerrainGenerator perlinTerrainGenerator(4323122924);
+    //flatTerrainGenerator.generate(*(this->terrain), {20323120});
+    perlinTerrainGenerator.generate(*(this->terrain), {20323120, 8});
 
     //
     // What follows is a lot of testing stuff
@@ -43,8 +46,8 @@ TerrainObject::TerrainObject(){
             );
             // Generate texture pixel
             unsigned int location = (i + (j * width)) * 3;
-            textureData[location] = i;
-            textureData[location + 1] = j;
+            textureData[location] = h;
+            textureData[location + 1] = -h;
             textureData[location + 2] = h;
         }
     }

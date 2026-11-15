@@ -5,6 +5,7 @@ add_library(simulation SHARED
     # Terrain
     source/terrain.cpp
     source/generators/flat_generator.cpp
+    source/generators/perlin_generator.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

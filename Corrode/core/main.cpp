@@ -52,7 +52,8 @@ int main(int argv, char* args[]){
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
 
     camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 1000.0f);
-    camera->setPosition(glm::vec3(100.0f, 110.0f, 300.0f));
+    camera->setPosition(glm::vec3(100.0f, 100.0f, 300.0f));
+    camera->setForward(glm::vec3(0.0f, -0.5f, -1.0f));
 
     // Create scene
     Rendering::Scene scene;
