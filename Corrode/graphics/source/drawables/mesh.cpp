@@ -8,7 +8,7 @@
 
 namespace Drawable{
 
-Mesh::Mesh(std::vector<Vertex> verts, std::vector<uint16_t> inds, std::vector<Texture> textures, std::shared_ptr<Rendering::ShaderProgram> shader) {
+Mesh::Mesh(std::vector<Vertex> verts, std::vector<std::uint32_t> inds, std::vector<Texture> textures, std::shared_ptr<Rendering::ShaderProgram> shader) {
 	this->vertices = verts;
 	this->indices = inds;
     this->textures = textures;

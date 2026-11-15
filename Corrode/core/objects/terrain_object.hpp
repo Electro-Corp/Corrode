@@ -11,6 +11,7 @@
 #include <sim/include/terrain.hpp>
 // C++
 #include <memory>
+#include <cstdint>
 
 #define SCALE_FACTOR 1
 
@@ -23,7 +24,7 @@ private:
     std::vector<Drawable::Texture> textures;
     // Vertices, indices, and normals
     std::vector<Drawable::Vertex> vertices;
-    std::vector<uint16_t> ind;
+    std::vector<std::uint32_t> ind;
 public:
     TerrainObject();
 

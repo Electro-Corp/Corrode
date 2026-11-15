@@ -13,7 +13,7 @@
 #include <glad.h>
 
 TerrainObject::TerrainObject(){
-    this->terrain = std::make_unique<Simulation::Terrain>(512, 512);
+    this->terrain = std::make_unique<Simulation::Terrain>(256 * 4, 256 * 4);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     //flatTerrainGenerator.generate(*(this->terrain), {20323120});
@@ -37,17 +37,17 @@ TerrainObject::TerrainObject(){
     unsigned char* textureData = new unsigned char[width * depth * 3];
 
     // Generate vertices (and texture) based on terrain gen
-    for(int i = 0; i < width; i++){
-        for(int j = 0; j < depth; j++){
-            int h = terrain->heightAt(i, j);
+    for(int z = 0; z < depth; z++){
+        for(int x = 0; x < width; x++){
+            int h = terrain->heightAt(x, z);
             // Generate vertice
             vertices.emplace_back(
-                glm::vec3(i * SCALE_FACTOR, h * SCALE_FACTOR, j * SCALE_FACTOR),
-                glm::vec2((float) i / (float) width, (float) j / (float)depth),
+                glm::vec3(x * SCALE_FACTOR, h * SCALE_FACTOR, z * SCALE_FACTOR),
+                glm::vec2((float) x / (float) width, (float) z / (float)depth),
                 glm::vec3(0.0, 0.0, 0.0) // dummy normal for until we get indices
             );
             // Generate texture pixel
-            unsigned int location = (i + (j * width)) * 3;
+            unsigned int location = (x + (z * width)) * 3;
             textureData[location] = h;
             textureData[location + 1] = -h;
             textureData[location + 2] = h;
@@ -66,13 +66,13 @@ TerrainObject::TerrainObject(){
     
     // Generate indices
     // Adapted from https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/indexbuffers/Tutorial%208%20-%20Index%20Buffers.pdf
-    for(int i = 0; i < width - 1; i++){
-        for(int j = 0; j < depth - 1; j++){
+    for(int z = 0; z < depth - 1; z++){
+        for(int x = 0; x < width - 1; x++){
             // "Patch"
-            int a = (i * width) + j;
-            int b = ((i + 1) * width) + j;
-            int c = ((i + 1) * width) + (j + 1);
-            int d = (i * width) + (j + 1);
+            std::uint32_t a = (z * width) + x;
+            std::uint32_t b = (z * width) + (x + 1);
+            std::uint32_t c = ((z + 1) * width) + (x + 1);
+            std::uint32_t d = ((z + 1) * width) + x;
 
             ind.push_back(c);
             ind.push_back(b);
@@ -86,7 +86,7 @@ TerrainObject::TerrainObject(){
 
     // Generate normals
     for(int i = 0; i < ind.size(); i+=3){
-        uint16_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
+        std::uint32_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
         // Generate normal
         glm::vec3 normal = glm::cross(vertices[b].pos - vertices[a].pos, vertices[c].pos - vertices[a].pos);
         // Add normal
