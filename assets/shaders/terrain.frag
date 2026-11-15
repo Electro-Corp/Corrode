@@ -53,10 +53,10 @@ void main()
     vec3 diffuse = diffuseAtten * (diff * allTex);
 
     // Specular
-    //float spec = pow(max(dot(norm, hDir), 0.0), 15.0f);
-    //vec3 specular = specularAtten * texture(material.texture_specular1, TexCoords).rgb * spec;
+    float spec = pow(max(dot(norm, hDir), 0.0), 15.0f);
+    vec3 specular = specularAtten * texture(material.texture_specular1, TexCoords).rgb * spec * 2;
 
-    FragColor = vec4(diffuse + amb /*+ specular*/, 1.0);
+    FragColor = vec4(diffuse + amb + specular, 1.0);
 
     //FragColor = texture(material.texture_diffuse1, TexCoords);
 }
