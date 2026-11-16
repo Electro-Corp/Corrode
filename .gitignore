@@ -6,3 +6,4 @@ graph
 compile_commands.json
 local-notes
 .cache
+.clang-format
