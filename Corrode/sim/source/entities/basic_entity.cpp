@@ -21,9 +21,9 @@ void BasicEntity::tick(World* world){
     const float nextZ = this->transform.getPosition().z + static_cast<float>(zOff);
     std::size_t cellX = 0;
     std::size_t cellZ = 0;
-    if(!world->terrain->cellCoordinatesAt(nextX, nextZ, cellX, cellZ)) {
-        xOff = 0.0;
-        zOff = 0.0;
+    if(!world->terrain->cellCoordinatesAt(nextX, nextZ, cellX, cellZ) || world->terrain->belowWaterAt(nextX, nextZ)) {
+        xOff *= -1;
+        zOff *= -1;
         return;
     }
 
