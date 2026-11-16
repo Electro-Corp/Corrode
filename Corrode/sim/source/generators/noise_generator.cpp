@@ -16,6 +16,10 @@ namespace Simulation {
     void NoiseTerrainGenerator::generate(Terrain &terrain, const TerrainGenerationSettings &settings) const {
         baseElevationPass_.apply(terrain, settings);
         waterLevelPass_.apply(terrain, settings);
+
+        // Final generator integration:
+        // FertilityLevelPass fertilityLevelPass;
+        // fertilityLevelPass.apply(terrain, settings);
     }
 
 } // SIMULATION

@@ -9,6 +9,7 @@ add_library(simulation SHARED
     source/generators/noise_generator.cpp
     source/passes/base_elevation_pass.cpp
     source/passes/water_level_pass.cpp
+    source/passes/fertility_pass.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

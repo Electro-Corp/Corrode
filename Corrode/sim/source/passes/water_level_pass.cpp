@@ -17,7 +17,7 @@ namespace Simulation {
                 // to create more interesting terrain
                 // Possibly something like mountain lakes at different elevations
                 // or something
-                cell.belowWater = cell.elevation < settings.water_level;
+                cell.water.belowWater = cell.elevation < settings.water_level;
             }
         }
     }
