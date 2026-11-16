@@ -54,6 +54,12 @@ public:
         transform = glm::translate(transform, offset);
     }
 
+    void setPosition(glm::vec3 position){
+        transform[3][0] = position.x;
+        transform[3][1] = position.y;
+        transform[3][2] = position.z;
+    }
+
     glm::vec3 getPosition(){
         return glm::vec3(transform[3]);
     }

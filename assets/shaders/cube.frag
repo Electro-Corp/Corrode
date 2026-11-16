@@ -21,32 +21,29 @@ uniform vec3 viewPosition;
 
 void main()
 {
-    vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
+    //vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
+
+    vec3 norm = normalize(Normal);
 
     vec3 lDir = normalize(light.position - FragPos);
     vec3 vDir = normalize(viewPosition - FragPos);
     vec3 rDir = reflect(-lDir, norm);
     vec3 hDir = normalize(lDir + vDir);
 
-    // Attenuation and distance
-    float distance = length(light.position  - FragPos);
-    //float atten = 1.0 / ((distance * distance) * (1.0 + 0.35 * distance * 0.44));
-    float atten = (1.0 / distance) * 50;
+    vec3 lColor = vec3(1.0, 1.0, 1.0);
 
-    vec3 ambientAtten = light.ambient * atten;
-    vec3 specularAtten = light.specular * atten;
-    vec3 diffuseAtten = light.diffuse * atten;
-
-    vec3 allTex = vec3(100.0, 255.0, 120.0);
-    vec3 amb = ambientAtten * allTex;
-
+    // Ambient
+    float aS = 0.1;
+    vec3 amb = aS * lColor;
     // Diffuse
-    float diff = max(dot(norm, lDir), 0.0); 
-    vec3 diffuse = diffuseAtten * (diff * allTex);
+    float d = max(dot(norm, lDir), 0.0);
+    vec3 diff = d * lColor;
 
     // Specular
-    float spec = pow(max(dot(viewPosition, hDir), 0.0), 32);
-    vec3 specular = vec3(0.5 * spec, 0.5 * spec, 0.5 * spec);
+    float sS = 0.5;
+    float s = pow(max(dot(vDir, rDir), 0.0), 32);
+    vec3 spec = sS * s * lColor;
 
-    FragColor = vec4(diffuse + amb + specular, 1.0);
+    vec3 res = (amb + diff + spec) * vec3(1.0, 0.1, 0.1);
+    FragColor = vec4(res, 1.0);
 }

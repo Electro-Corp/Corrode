@@ -2,13 +2,18 @@ add_library(simulation SHARED
     # Simulation Library
     source/environment.cpp
     source/entity.cpp
+    source/world.cpp
     # Terrain
     source/terrain.cpp
+    # Generators
     source/generators/flat_generator.cpp
     source/generators/perlin_noise.cpp
     source/generators/noise_generator.cpp
+    # Passes
     source/passes/base_elevation_pass.cpp
     source/passes/water_level_pass.cpp
+    # Entities
+    source/entities/basic_entity.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

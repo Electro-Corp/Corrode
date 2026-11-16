@@ -16,12 +16,12 @@ BasicCreature::BasicCreature(){
     }
 
     // Cube indices
-    ind.insert(ind.end(), {0, 6, 7, 2, 3, 7}); // top
-    ind.insert(ind.end(), {0, 4, 5, 0, 1, 5}); // bottom
-    ind.insert(ind.end(), {0, 2, 6, 0, 4, 6}); // left
-    ind.insert(ind.end(), {1, 3, 7, 1, 5, 7}); // right
-    ind.insert(ind.end(), {0, 2, 3, 0, 1, 3}); // front
-    ind.insert(ind.end(), {4, 6, 7, 4, 5, 7}); // back
+    ind.insert(ind.end(), {0, 1, 2, 2, 3, 0}); // front
+    ind.insert(ind.end(), {1, 5, 6, 6, 2, 1}); // right
+    ind.insert(ind.end(), {5, 4, 7, 7, 6, 5}); // back
+    ind.insert(ind.end(), {4, 0, 3, 3, 7, 4}); // left
+    ind.insert(ind.end(), {3, 2, 6, 6, 7, 3}); // top
+    ind.insert(ind.end(), {4, 5, 1, 1, 0, 4}); // bottom
     
     // Shader
     Rendering::Shader* vertex = new Rendering::Shader("../assets/shaders/cube.vert", Rendering::VERTEX);
@@ -30,8 +30,17 @@ BasicCreature::BasicCreature(){
 
     // Final drawable
     this->drawable = std::make_shared<Drawable::Mesh>(vertices, ind, textures, shaderProgram);    
+
+    // Create entity
+    this->entity = std::make_shared<Simulation::BasicEntity>();
+}
+
+BasicCreature::BasicCreature(glm::vec3 position) : BasicCreature() {
+    this->transform.setPosition(position);
+    this->entity->transform = this->transform;
 }
 
 void BasicCreature::tick(){
+    this->transform.setPosition(entity->transform.getPosition());
     this->drawable->transform = this->transform;
 } 
