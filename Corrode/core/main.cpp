@@ -49,14 +49,14 @@ int main(int argv, char* args[]){
     // Create test terrain
     TerrainObject terrainObject;
     // Test creature
-    BasicCreature creature(glm::vec3(500.0f, 50.0f, 500.0f));
-    creature.transform.Scale(glm::vec3(20.0f, 20.0f, 20.0f));
+    BasicCreature creature(glm::vec3(100.0f, 50.0f, 100.0f));
+    creature.transform.Scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
     camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 2500.0f);
-    camera->setPosition(glm::vec3(512.0f, 600.0f, 1400.0f));
-    camera->setForward(glm::normalize(glm::vec3(0.0f, -400.0f, -588.0f)));
+    camera->setPosition(glm::vec3(128.0f, 340.0f, 380.0f));
+    camera->setForward(glm::normalize(glm::vec3(0.0f, -300.0f, -252.0f)));
 
     // Lighting
     Rendering::Light sun(

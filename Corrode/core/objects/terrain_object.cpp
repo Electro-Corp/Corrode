@@ -13,6 +13,7 @@
 // Terrain/simulation
 #include <sim/include/generators/flat_generator.hpp>
 #include <sim/include/generators/noise_generator.hpp>
+#include <sim/include/passes/fertility_pass.hpp>
 #include <sim/include/passes/water_level_pass.hpp>
 // glad
 #include <glad.h>
@@ -22,12 +23,13 @@
 TerrainObject::TerrainObject(){
     Util::Log("TerrainObject::TerrainObject", "Generating Terrain, please wait...");
     // Generate terrain
-    this->terrain = std::make_shared<Simulation::Terrain>(1024, 1024);
+    this->terrain = std::make_shared<Simulation::Terrain>(256, 256);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::CoordinateGrid;
-    constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
+    constexpr TerrainDebugView debugView = TerrainDebugView::FertilityGradient;
+    // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::ElevationBands;
     
     Simulation::TerrainGenerationSettings terrainSettings{
@@ -40,8 +42,11 @@ TerrainObject::TerrainObject(){
 
     noiseTerrainGenerator.generate(*(this->terrain), terrainSettings);
 
-    Simulation::WaterLevelPass waterLevelPass;
-    waterLevelPass.apply(*(this->terrain), terrainSettings);
+    constexpr bool enableExperimentalFertility = true;
+    if(enableExperimentalFertility) {
+        Simulation::FertilityLevelPass fertilityLevelPass;
+        fertilityLevelPass.apply(*(this->terrain), terrainSettings);
+    }
 
     //
     // What follows is a lot of stuff
@@ -75,7 +80,11 @@ TerrainObject::TerrainObject(){
     // Generate vertices (and texture) based on terrain gen
     for(std::size_t z = 0; z < depth; z++){
         for(std::size_t x = 0; x < width; x++){
-            float height = terrain->heightAt(x, z);
+            const float topLeft = terrain->cornerHeightAt(x, z, Simulation::TerrainCorner::TopLeft);
+            const float topRight = terrain->cornerHeightAt(x, z, Simulation::TerrainCorner::TopRight);
+            const float bottomRight = terrain->cornerHeightAt(x, z, Simulation::TerrainCorner::BottomRight);
+            const float bottomLeft = terrain->cornerHeightAt(x, z, Simulation::TerrainCorner::BottomLeft);
+            const float height = terrain->heightAt(x, z);
             bool belowWater = terrain->belowWaterAt(x, z);
 
             RGB color = terrainDebugColor(
@@ -88,17 +97,43 @@ TerrainObject::TerrainObject(){
                 terrainSettings.water_level
             );
 
-            // Generate vertice
+            const float xPosition = x * terrain->cellSize();
+            const float zPosition = z * terrain->cellSize();
+            const float xTexture = static_cast<float>(x) / static_cast<float>(width);
+            const float zTexture = static_cast<float>(z) / static_cast<float>(depth);
+            const float xTextureNext = static_cast<float>(x + 1) / static_cast<float>(width);
+            const float zTextureNext = static_cast<float>(z + 1) / static_cast<float>(depth);
+
             vertices.emplace_back(
-                glm::vec3(x * terrain->cellSize(), height, z * terrain->cellSize()),
-                glm::vec2((float) x / (float) width, (float) z / (float)depth),
-                glm::vec3(0.0, 0.0, 0.0) // dummy normal for until we get indices
+                glm::vec3(xPosition, topLeft, zPosition),
+                glm::vec2(xTexture, zTexture),
+                glm::vec3(0.0, 0.0, 0.0)
             );
+            
+            vertices.emplace_back(
+                glm::vec3(xPosition + terrain->cellSize(), topRight, zPosition),
+                glm::vec2(xTextureNext, zTexture),
+                glm::vec3(0.0, 0.0, 0.0)
+            );
+
+            vertices.emplace_back(
+                glm::vec3(xPosition + terrain->cellSize(), bottomRight, zPosition + terrain->cellSize()),
+                glm::vec2(xTextureNext, zTextureNext),
+                glm::vec3(0.0, 0.0, 0.0)
+            );
+
+            vertices.emplace_back(
+                glm::vec3(xPosition, bottomLeft, zPosition + terrain->cellSize()),
+                glm::vec2(xTexture, zTextureNext),
+                glm::vec3(0.0, 0.0, 0.0)
+            );
+
             // Generate texture pixel
             unsigned int location = (x + (z * width)) * 3;
             diffuseData[location] = static_cast<unsigned char>(color.r);
             diffuseData[location + 1] = static_cast<unsigned char>(color.g);
             diffuseData[location + 2] = static_cast<unsigned char>(color.b);
+
             // Specular
             specularData[location] = static_cast<unsigned char>((50 + height) * (belowWater));
             specularData[location + 1] = static_cast<unsigned char>((50 + height) * (belowWater));
@@ -127,13 +162,13 @@ TerrainObject::TerrainObject(){
     
     // Generate indices
     // Adapted from https://research.ncl.ac.uk/game/mastersdegree/graphicsforgames/indexbuffers/Tutorial%208%20-%20Index%20Buffers.pdf
-    for(std::size_t z = 0; z < depth - 1; z++){
-        for(std::size_t x = 0; x < width - 1; x++){
-            // "Patch"
-            std::uint32_t a = (z * width) + x;
-            std::uint32_t b = (z * width) + (x + 1);
-            std::uint32_t c = ((z + 1) * width) + (x + 1);
-            std::uint32_t d = ((z + 1) * width) + x;
+    for(std::size_t z = 0; z < depth; z++){
+        for(std::size_t x = 0; x < width; x++){
+            const std::uint32_t base = static_cast<std::uint32_t>((z * width + x) * 4);
+            const std::uint32_t a = base;
+            const std::uint32_t b = base + 1;
+            const std::uint32_t c = base + 2;
+            const std::uint32_t d = base + 3;
 
             ind.push_back(c);
             ind.push_back(b);
@@ -146,8 +181,8 @@ TerrainObject::TerrainObject(){
     }
 
     // Generate normals
-    for(int i = 0; i < ind.size(); i+=3){
-        uint16_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
+    for(std::size_t i = 0; i < ind.size(); i+=3){
+        std::uint32_t a = ind[i], b = ind[i + 1], c = ind[i + 2];
         // Generate normal
         glm::vec3 normal = glm::cross(vertices[b].pos - vertices[a].pos, vertices[c].pos - vertices[a].pos);
         // Add normal

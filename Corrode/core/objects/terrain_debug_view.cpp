@@ -52,6 +52,17 @@ RGB terrainDebugColor(
             return ((x / gridInterval + z / gridInterval) % 2 == 0)
                 ? RGB{230.0f, 230.0f, 230.0f}
                 : RGB{35.0f, 35.0f, 35.0f};
+        case TerrainDebugView::FertilityGradient: {
+            if(terrain.belowWaterAt(x, z)) {
+                return RGB{35.0f, 100.0f, 235.0f};
+            }
+            const float fertility = clampByte(terrain.cellAt(x, z).soil.fertility * 255.0f) / 255.0f;
+            return RGB{
+                150.0f - 120.0f * fertility,
+                70.0f + 185.0f * fertility,
+                30.0f + 40.0f * fertility
+            };
+        }
     }
 
     return RGB{0.0f, 0.0f, 0.0f};

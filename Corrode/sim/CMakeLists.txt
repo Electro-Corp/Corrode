@@ -12,6 +12,7 @@ add_library(simulation SHARED
     # Passes
     source/passes/base_elevation_pass.cpp
     source/passes/water_level_pass.cpp
+    source/passes/fertility_pass.cpp
     # Entities
     source/entities/basic_entity.cpp
 )

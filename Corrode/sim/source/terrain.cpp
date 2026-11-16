@@ -6,6 +6,7 @@
 // Simulation include
 #include <terrain.hpp>
 // C++ STD
+#include <cmath>
 #include <stdexcept>
 
 namespace Simulation {
@@ -22,6 +23,8 @@ Terrain::Terrain(std::size_t width, std::size_t depth, float cellSize)
     if (cellSize <= 0.0f) {
         throw std::invalid_argument("Terrain cell size must be greater than zero.");
     }
+
+    cellDiagonalSize_ = std::sqrt(2.0f) * cellSize;
 }
 
 std::size_t Terrain::width() const noexcept {
@@ -36,20 +39,34 @@ float Terrain::cellSize() const noexcept {
     return cellSize_;
 }
 
+float Terrain::cellDiagonalSize() const noexcept {
+    return cellDiagonalSize_;
+}
+
 float Terrain::heightAt(std::size_t x, std::size_t z) const {
     return cellAt(x, z).elevation;
 }
 
 void Terrain::setHeight(std::size_t x, std::size_t z, float height) {
-    cellAt(x, z).elevation = height;
+    TerrainCell& cell = cellAt(x, z);
+    cell.elevation = height;
+    cell.cornerHeights.fill(height);
+}
+
+float Terrain::cornerHeightAt(std::size_t x, std::size_t z, TerrainCorner corner) const {
+    return cellAt(x, z).cornerHeights[static_cast<std::size_t>(corner)];
+}
+
+void Terrain::setCornerHeight(std::size_t x, std::size_t z, TerrainCorner corner, float height) {
+    cellAt(x, z).cornerHeights[static_cast<std::size_t>(corner)] = height;
 }
 
 bool Terrain::belowWaterAt(std::size_t x, std::size_t z) const {
-    return cellAt(x, z).belowWater;
+    return cellAt(x, z).water.belowWater;
 }
 
 void Terrain::setBelowWater(std::size_t x, std::size_t z, bool belowWater) {
-    cellAt(x, z).belowWater = belowWater;
+    cellAt(x, z).water.belowWater = belowWater;
 }
 
 TerrainCell& Terrain::cellAt(std::size_t x, std::size_t z) {

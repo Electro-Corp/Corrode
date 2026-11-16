@@ -4,18 +4,27 @@
 */
 #pragma once
 
+#include <array>
+
 struct Soil {
-    float fertility;
+    float fertility = 0.0f;
+};
+
+struct Vegitation {
+    float amount = 0.0f;
 };
 
 struct Water {
-    float surfaceAmount;
-    float groundwaterAmount;
+    float surfaceAmount = 0.0f;
+    float groundwaterAmount = 0.0f;
+    bool belowWater = false;
 };
 
 struct TerrainCell {
     Soil soil; 
+    Vegitation vegitation;
     Water water;
+
     float elevation = 0.0f;
-    bool belowWater = false;
+    std::array<float, 4> cornerHeights{};
 };

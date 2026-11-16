@@ -10,6 +10,13 @@
 
 namespace Simulation{
 
+    enum class TerrainCorner {
+        TopLeft,
+        TopRight,
+        BottomRight,
+        BottomLeft
+    };
+
     class Terrain {
         public:
             Terrain(std::size_t width, std::size_t depth, float cellSize = 1.0f);
@@ -17,11 +24,16 @@ namespace Simulation{
             std::size_t width() const noexcept;
             std::size_t depth() const noexcept;
             float cellSize() const noexcept;
+            float cellDiagonalSize() const noexcept;
 
             float heightAt(std::size_t x, std::size_t z) const;
             void setHeight(std::size_t x, std::size_t z, float height);
+            float cornerHeightAt(std::size_t x, std::size_t z, TerrainCorner corner) const;
+            void setCornerHeight(std::size_t x, std::size_t z, TerrainCorner corner, float height);
+
             bool belowWaterAt(std::size_t x, std::size_t z) const;
             void setBelowWater(std::size_t x, std::size_t z, bool belowWater);
+
             TerrainCell& cellAt(std::size_t x, std::size_t z);
             const TerrainCell& cellAt(std::size_t x, std::size_t z) const;
             
@@ -33,6 +45,7 @@ namespace Simulation{
             std::size_t width_;
             std::size_t depth_;
             float cellSize_;
+            float cellDiagonalSize_;
 
             std::vector<TerrainCell> cells_;
     };
