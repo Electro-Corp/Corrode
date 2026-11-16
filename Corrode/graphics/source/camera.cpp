@@ -26,7 +26,12 @@ void Camera::setPosition(vec3 position) {
 }
 
 void Camera::setForward(vec3 forward) {
-    this->data.forward = forward;
+    this->data.forward = normalize(forward);
+    updateViewMat();
+}
+
+void Camera::move(vec3 offset) {
+    data.position += offset;
     updateViewMat();
 }
 
@@ -55,8 +60,66 @@ CameraController::CameraController(std::shared_ptr<Camera> camera) {
     yaw = 180.0f;
 }
 
-void CameraController::handleInput(GLFWwindow *window) {
-    // TODO: Make this function move camera based on mouse??? this whole class will probably need changing
+void CameraController::attachWindow(GLFWwindow* window) {
+    syncOrientation();
+    glfwSetWindowUserPointer(window, this);
+    glfwSetCursorPosCallback(window, mouseCallback);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+}
+
+void CameraController::handleInput(GLFWwindow *window, float deltaTime) {
+    const vec3 forward = normalize(vec3(camera->getForward().x, 0.0f, camera->getForward().z));
+    const vec3 right = normalize(cross(forward, vec3(0.0f, 1.0f, 0.0f)));
+    const vec3 up = normalize(cross(forward, right));
+
+    const float distance = movementSpeed * deltaTime;
+    vec3 movement(0.0f);
+
+    if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) movement += forward;
+    if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) movement -= forward;
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) movement += right;
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) movement -= right;
+    if(glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) movement += up;
+    if(glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) movement -= up;
+
+    if(length(movement) > 0.0f) {
+        camera->move(normalize(movement) * distance);
+    }
+}
+
+void CameraController::mouseCallback(GLFWwindow* window, double x, double y) {
+    CameraController* controller = static_cast<CameraController*>(glfwGetWindowUserPointer(window));
+    if(controller != nullptr) controller->handleMouse(x, y);
+}
+
+void CameraController::handleMouse(double x, double y) {
+    if(firstMouse) {
+        lastMouseX = static_cast<float>(x);
+        lastMouseY = static_cast<float>(y);
+        firstMouse = false;
+        return;
+    }
+
+    const float xOffset = (static_cast<float>(x) - lastMouseX) * mouseSensitivity;
+    const float yOffset = (lastMouseY - static_cast<float>(y)) * mouseSensitivity;
+    lastMouseX = static_cast<float>(x);
+    lastMouseY = static_cast<float>(y);
+    yaw += xOffset;
+    pitch = clamp(pitch + yOffset, -maxPitch, maxPitch);
+
+    const float yawRadians = radians(yaw);
+    const float pitchRadians = radians(pitch);
+    camera->setForward(normalize(vec3(
+        cos(yawRadians) * cos(pitchRadians),
+        sin(pitchRadians),
+        sin(yawRadians) * cos(pitchRadians)
+    )));
+}
+
+void CameraController::syncOrientation() {
+    const vec3 forward = normalize(camera->getForward());
+    pitch = degrees(asin(clamp(forward.y, -1.0f, 1.0f)));
+    yaw = degrees(atan(forward.z, forward.x));
 }
 
 }

@@ -47,11 +47,22 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     glfwSetFramebufferSizeCallback(window, windowResizedCallback);
 }
 
-int GraphicsEngine::tick(Scene scene, const Camera& cam, Light sun){
+int GraphicsEngine::tick(Scene scene, Camera& cam, Light sun){
     if(glfwWindowShouldClose(window)){
         glfwTerminate();
         return -1;
     }
+
+    if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, GLFW_TRUE);
+    }
+
+    const double currentTime = glfwGetTime();
+    const float deltaTime = lastFrameTime > 0.0
+        ? static_cast<float>(currentTime - lastFrameTime)
+        : 0.0f;
+    lastFrameTime = currentTime;
+    if(cam.control) cam.control->handleInput(window, deltaTime);
 
     // Clear color
     glClearColor(clearColor.r / 255.0f, clearColor.g / 255.0f, clearColor.b / 255.0f, clearColor.a / 255.0f);
@@ -74,6 +85,10 @@ int GraphicsEngine::tick(Scene scene, const Camera& cam, Light sun){
     glfwPollEvents();
 
     return 0;
+}
+
+GLFWwindow* GraphicsEngine::getWindow() const {
+    return window;
 }
 
 } // Rendering

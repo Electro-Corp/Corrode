@@ -62,6 +62,7 @@ int main(int argv, char* args[]){
     camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 2500.0f);
     camera->setPosition(glm::vec3(128.0f, 340.0f, 380.0f));
     camera->setForward(glm::normalize(glm::vec3(0.0f, -300.0f, -252.0f)));
+    camera->control->attachWindow(graphicsEngine->getWindow());
 
     // Lighting
     Rendering::Light sun(

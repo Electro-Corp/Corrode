@@ -40,6 +40,8 @@ namespace Rendering{
         GraphicsEngine(EngineInitOptions initOptions);
 
         // Tick graphics system
-        int tick(Scene scene, const Rendering::Camera& cam, Light sun);
+        int tick(Scene scene, Rendering::Camera& cam, Light sun);
+        GLFWwindow* getWindow() const;
+        double lastFrameTime = 0.0;
     };
 }

@@ -57,6 +57,7 @@ namespace Rendering {
             ~Camera();
             void setPosition(vec3 position);
             void setForward(vec3 forward);
+        void move(vec3 offset);
             void setPerspective(float fov, float aspectRatio, float near, float far);
 
             mat4 inline getView() { return mats.view; }
@@ -75,6 +76,9 @@ namespace Rendering {
         public:
             float orbitSensitivity = 0.2f;
             float zoomSensitivity = 0.0025f;
+            static constexpr float movementSpeed = 120.0f;
+            static constexpr float mouseSensitivity = 0.1f;
+            static constexpr float maxPitch = 89.0f;
 
         private:
             std::shared_ptr<Camera> camera;
@@ -86,8 +90,13 @@ namespace Rendering {
             float distance;
             float pitch;
             float yaw;
+
+            static void mouseCallback(GLFWwindow* window, double x, double y);
+            void handleMouse(double x, double y);
+            void syncOrientation();
         public:
             CameraController(std::shared_ptr<Camera> camera);
-            void handleInput(GLFWwindow *window);
+            void attachWindow(GLFWwindow* window);
+            void handleInput(GLFWwindow *window, float deltaTime);
     };
 }
