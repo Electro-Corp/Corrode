@@ -23,7 +23,7 @@ void BasicEntity::tick(World* world){
     if(this->transform.getPosition().z + zOff > world->terrain->depth()) zOff = 0.0;
     if(this->transform.getPosition().z + zOff < 0) zOff = 0.0;
     // Snap to the ground
-    this->transform.setPosition(glm::vec3(this->transform.getPosition().x + xOff, world->terrain->heightAt(this->transform.getPosition().x, this->transform.getPosition().z) + 20, this->transform.getPosition().z + zOff));
+    this->transform.setPosition(glm::vec3(this->transform.getPosition().x + xOff, world->terrain->heightAt(this->transform.getPosition().x, this->transform.getPosition().z) + 2, this->transform.getPosition().z + zOff));
 }
 
 } // SIMULATION
