@@ -14,6 +14,7 @@
 #include <sim/include/generators/flat_generator.hpp>
 #include <sim/include/generators/noise_generator.hpp>
 #include <sim/include/passes/fertility_pass.hpp>
+#include <sim/include/passes/vegetation_initialization_pass.hpp>
 #include <sim/include/passes/water_level_pass.hpp>
 // glad
 #include <glad.h>
@@ -28,7 +29,7 @@ TerrainObject::TerrainObject(){
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::CoordinateGrid;
-    constexpr TerrainDebugView debugView = TerrainDebugView::FertilityGradient;
+    constexpr TerrainDebugView debugView = TerrainDebugView::VegetationGradient;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;
     // constexpr TerrainDebugView debugView = TerrainDebugView::ElevationBands;
     
@@ -46,6 +47,8 @@ TerrainObject::TerrainObject(){
     if(enableExperimentalFertility) {
         Simulation::FertilityLevelPass fertilityLevelPass;
         fertilityLevelPass.apply(*(this->terrain), terrainSettings);
+        Simulation::VegetationInitializationPass vegetationInitializationPass;
+        vegetationInitializationPass.apply(*(this->terrain), terrainSettings);
     }
 
     //

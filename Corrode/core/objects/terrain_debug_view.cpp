@@ -63,6 +63,17 @@ RGB terrainDebugColor(
                 30.0f + 40.0f * fertility
             };
         }
+        case TerrainDebugView::VegetationGradient: {
+            if(terrain.belowWaterAt(x, z)) {
+                return RGB{35.0f, 100.0f, 235.0f};
+            }
+            const float vegetation = clampByte(terrain.cellAt(x, z).vegetation.amount * 255.0f) / 255.0f;
+            return RGB{
+                70.0f - 50.0f * vegetation,
+                35.0f + 185.0f * vegetation,
+                15.0f + 30.0f * vegetation
+            };
+        }
     }
 
     return RGB{0.0f, 0.0f, 0.0f};

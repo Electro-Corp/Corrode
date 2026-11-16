@@ -10,7 +10,7 @@ struct Soil {
     float fertility = 0.0f;
 };
 
-struct Vegitation {
+struct Vegetation {
     float amount = 0.0f;
 };
 
@@ -22,7 +22,7 @@ struct Water {
 
 struct TerrainCell {
     Soil soil; 
-    Vegitation vegitation;
+    Vegetation vegetation;
     Water water;
 
     float elevation = 0.0f;

@@ -43,6 +43,48 @@ float Terrain::cellDiagonalSize() const noexcept {
     return cellDiagonalSize_;
 }
 
+bool Terrain::cellCoordinatesAt(
+    float worldX,
+    float worldZ,
+    std::size_t& cellX,
+    std::size_t& cellZ
+) const noexcept {
+    if(!std::isfinite(worldX) || !std::isfinite(worldZ) || worldX < 0.0f || worldZ < 0.0f) {
+        return false;
+    }
+
+    const float terrainWidth = static_cast<float>(width_) * cellSize_;
+    const float terrainDepth = static_cast<float>(depth_) * cellSize_;
+    if(worldX >= terrainWidth || worldZ >= terrainDepth) {
+        return false;
+    }
+
+    cellX = static_cast<std::size_t>(std::floor(worldX / cellSize_));
+    cellZ = static_cast<std::size_t>(std::floor(worldZ / cellSize_));
+    return true;
+}
+
+void Terrain::cellCenterAt(
+    std::size_t cellX,
+    std::size_t cellZ,
+    float& worldX,
+    float& worldZ
+) const {
+    validateCoordinates(cellX, cellZ);
+    worldX = (static_cast<float>(cellX) + 0.5f) * cellSize_;
+    worldZ = (static_cast<float>(cellZ) + 0.5f) * cellSize_;
+}
+
+float Terrain::surfaceHeightAt(std::size_t cellX, std::size_t cellZ) const {
+    const TerrainCell& cell = cellAt(cellX, cellZ);
+    return (
+        cell.cornerHeights[static_cast<std::size_t>(TerrainCorner::TopLeft)] +
+        cell.cornerHeights[static_cast<std::size_t>(TerrainCorner::TopRight)] +
+        cell.cornerHeights[static_cast<std::size_t>(TerrainCorner::BottomRight)] +
+        cell.cornerHeights[static_cast<std::size_t>(TerrainCorner::BottomLeft)]
+    ) / 4.0f;
+}
+
 float Terrain::heightAt(std::size_t x, std::size_t z) const {
     return cellAt(x, z).elevation;
 }

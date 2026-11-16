@@ -26,6 +26,20 @@ namespace Simulation{
             float cellSize() const noexcept;
             float cellDiagonalSize() const noexcept;
 
+            bool cellCoordinatesAt(
+                float worldX,
+                float worldZ,
+                std::size_t& cellX,
+                std::size_t& cellZ
+            ) const noexcept;
+            void cellCenterAt(
+                std::size_t cellX,
+                std::size_t cellZ,
+                float& worldX,
+                float& worldZ
+            ) const;
+            float surfaceHeightAt(std::size_t cellX, std::size_t cellZ) const;
+
             float heightAt(std::size_t x, std::size_t z) const;
             void setHeight(std::size_t x, std::size_t z, float height);
             float cornerHeightAt(std::size_t x, std::size_t z, TerrainCorner corner) const;

@@ -10,7 +10,8 @@ enum class TerrainDebugView {
     ElevationBands,
     HeightGradient,
     CoordinateGrid,
-    FertilityGradient
+    FertilityGradient,
+    VegetationGradient
 };
 
 RGB terrainDebugColor(
