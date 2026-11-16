@@ -21,5 +21,6 @@ namespace Rendering {
 
         // Abstract function for child classes
         virtual void draw(const Rendering::Camera& cam) = 0;
+        virtual void draw(const Rendering::Camera& cam, unsigned int overrideShader) = 0;
     };
 } // Rendering

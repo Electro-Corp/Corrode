@@ -19,8 +19,7 @@ struct Light {
 uniform Light light;
 uniform vec3 viewPosition;
 
-void main()
-{
+void main() {
     //vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
 
     vec3 norm = normalize(Normal);

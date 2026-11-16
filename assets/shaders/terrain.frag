@@ -27,8 +27,7 @@ uniform Light light;
 uniform Material material;
 uniform vec3 viewPosition;
 
-void main()
-{
+void main() {
     vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
 
     vec3 lDir = normalize(light.position - FragPos);

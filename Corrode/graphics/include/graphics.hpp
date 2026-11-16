@@ -13,6 +13,7 @@
 #include <scene.hpp>
 #include <camera.hpp>
 #include <light.hpp>
+#include <shader.hpp>
 
 namespace Rendering{
     struct Color{
@@ -23,6 +24,7 @@ namespace Rendering{
         char name[32]; // Window title
         int h, w; // Window height and width
         Color clearColor; // OpenGL clear color
+        unsigned int shadowSize = 1024;
     };
 
     class GraphicsEngine{
@@ -32,16 +34,36 @@ namespace Rendering{
         GLFWwindow* window;
         // GL
         Color clearColor;
+        
+        // Shadow stuff
+        unsigned int depthMapFB, depthMap;
+        unsigned int shadowWidth, shadowHeight;
+        float shadowNear = 1.0f, shadowFar = 10.f;
+        std::unique_ptr<ShaderProgram> depthShader;
+        glm::mat4 lightProjection, lightView, lightSpaceMatrix;
+
+        // Configure shadow shader/matrices
+        void configureShadows(Light light);
 
         // Window resize callback
-        static void windowResizedCallback(GLFWwindow* window, int w, int h){ glViewport(0, 0, w, h); }
+        static void windowResizedCallback(GLFWwindow* window, int w, int h){ 
+            auto renderer = reinterpret_cast<GraphicsEngine*>(glfwGetWindowUserPointer(window));
+            renderer->setDim(w, h);
+            glViewport(0, 0, w, h); 
+        }
     public:
         // Create graphics engine with the specfied options
         GraphicsEngine(EngineInitOptions initOptions);
 
         // Tick graphics system
         int tick(Scene scene, Rendering::Camera& cam, Light sun);
+
+        // Getters/setters
         GLFWwindow* getWindow() const;
+        void setDim(int w, int h){ this->windowWidth = w; this->windowHeight = h; }
+
+        // Vars
         double lastFrameTime = 0.0;
+
     };
 }
