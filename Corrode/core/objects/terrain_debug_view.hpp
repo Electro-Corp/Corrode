@@ -9,7 +9,8 @@ enum class TerrainDebugView {
     WaterClassification,
     ElevationBands,
     HeightGradient,
-    CoordinateGrid
+    CoordinateGrid,
+    FertilityGradient
 };
 
 RGB terrainDebugColor(
