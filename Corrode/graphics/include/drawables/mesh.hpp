@@ -59,8 +59,6 @@ namespace Drawable{
 	public:
 		// Has our mesh been modified?
 		bool modified = false;
-        // Base transform
-		Transform transform;
         /*
          *  VAO -> Tells OpenGL how our vertices are laid out
          *  VBO -> for our vertices

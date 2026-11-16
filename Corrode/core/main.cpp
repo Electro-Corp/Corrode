@@ -14,6 +14,8 @@
 // Objects
 #include <core/objects/test_object.hpp>
 #include <core/objects/terrain_object.hpp>
+#include <core/objects/basic_creature.hpp>
+
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1
@@ -45,6 +47,11 @@ int main(int argv, char* args[]){
 
     // Create test terrain
     TerrainObject terrainObject;
+
+    // Test creature
+    BasicCreature creature;
+    creature.transform.Translate(glm::vec3(500.0f, 50.0f, 500.0f));
+    creature.transform.Scale(glm::vec3(10.0f, 10.0f, 10.0f));
     
     // Triangle
     TestObject tObject;
@@ -68,10 +75,12 @@ int main(int argv, char* args[]){
     // Create scene
     Rendering::Scene scene;
     scene.addDrawable(terrainObject.getDrawable());
+    scene.addDrawable(creature.getDrawable());
     
 
     // TODO: Make this loop timer based 
     while(1){
+        creature.tick();
         if(graphicsEngine->tick(scene, *camera, sun) < 0) break;
     }
 

@@ -38,12 +38,20 @@ public:
         transform = glm::scale(transform, Transform::internalToGLM(newScale));
     }
 
+    void Scale(glm::vec3 newScale){
+        transform = glm::scale(transform, newScale);
+    }
+
     void Rotate(float angle, Vector3 axis){
         transform = glm::rotate(transform, glm::radians(angle), Transform::internalToGLM(axis));   
     }
 
     void Translate(Vector3 offset){
         transform = glm::translate(transform, Transform::internalToGLM(offset));
+    }
+
+    void Translate(glm::vec3 offset){
+        transform = glm::translate(transform, offset);
     }
 
     glm::vec3 getPosition(){

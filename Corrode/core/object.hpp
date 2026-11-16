@@ -19,6 +19,9 @@ public:
     // 
     virtual void tick() = 0;
 
+    // Transform
+    Transform transform;
+
     // Getter
     std::shared_ptr<Rendering::Drawable> getDrawable() { return drawable; }
 };
