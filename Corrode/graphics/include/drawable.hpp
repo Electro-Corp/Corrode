@@ -16,6 +16,8 @@ namespace Rendering {
 
         // Shaders
         std::shared_ptr<Rendering::ShaderProgram> shaderProgram;
+        // Base transform
+		Transform transform;
 
         // Abstract function for child classes
         virtual void draw(const Rendering::Camera& cam) = 0;
