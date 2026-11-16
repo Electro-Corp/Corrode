@@ -17,7 +17,7 @@
 
 class TerrainObject : public Object {
 private:
-    std::unique_ptr<Simulation::Terrain> terrain;
+    std::shared_ptr<Simulation::Terrain> terrain;
     // Shaders
     std::shared_ptr<Rendering::ShaderProgram> shaderProgram;
     // Textures
@@ -29,4 +29,7 @@ public:
     TerrainObject();
 
     void tick() override;
+
+    // Getters/Setters
+    std::shared_ptr<Simulation::Terrain> getTerrain() { return terrain; }
 };

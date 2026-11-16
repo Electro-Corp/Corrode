@@ -23,7 +23,7 @@
 TerrainObject::TerrainObject(){
     Util::Log("TerrainObject::TerrainObject", "Generating Terrain, please wait...");
     // Generate terrain
-    this->terrain = std::make_unique<Simulation::Terrain>(256, 256);
+    this->terrain = std::make_shared<Simulation::Terrain>(256, 256);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;

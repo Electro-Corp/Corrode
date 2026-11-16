@@ -10,9 +10,13 @@
 // Core
 #include <core/object.hpp>
 #include <common/log.hpp>
+// Sim
+#include <entities/basic_entity.hpp>
 
 class BasicCreature : public Object {
 private:
+    // Basic entity
+    std::shared_ptr<Simulation::BasicEntity> entity;
     // Shaders
     std::shared_ptr<Rendering::ShaderProgram> shaderProgram;
     // Textures
@@ -67,6 +71,10 @@ private:
     };
 public:
     BasicCreature();
+    BasicCreature(glm::vec3 position);
 
     void tick() override;
+
+    // Getters/Setter
+    std::shared_ptr<Simulation::BasicEntity> getEntity() { return entity; }
 };

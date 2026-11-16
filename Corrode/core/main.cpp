@@ -15,7 +15,8 @@
 #include <core/objects/test_object.hpp>
 #include <core/objects/terrain_object.hpp>
 #include <core/objects/basic_creature.hpp>
-
+// Simulation
+#include <sim/include/world.hpp>
 
 #define VERSION_MAJOR 0
 #define VERSION_MINOR 1
@@ -47,18 +48,12 @@ int main(int argv, char* args[]){
 
     // Create test terrain
     TerrainObject terrainObject;
-
     // Test creature
-    BasicCreature creature;
-    creature.transform.Translate(glm::vec3(500.0f, 50.0f, 500.0f));
-    creature.transform.Scale(glm::vec3(10.0f, 10.0f, 10.0f));
-    
-    // Triangle
-    TestObject tObject;
+    BasicCreature creature(glm::vec3(100.0f, 50.0f, 100.0f));
+    creature.transform.Scale(glm::vec3(2.0f, 2.0f, 2.0f));
 
     // Create camera
     std::shared_ptr<Rendering::Camera> camera = Rendering::Camera::create();
-
     camera->setPerspective(glm::radians(45.0), (float) gOptions.w / gOptions.h, 0.1f, 2500.0f);
     camera->setPosition(glm::vec3(128.0f, 340.0f, 380.0f));
     camera->setForward(glm::normalize(glm::vec3(0.0f, -300.0f, -252.0f)));
@@ -77,11 +72,21 @@ int main(int argv, char* args[]){
     Rendering::Scene scene;
     scene.addDrawable(terrainObject.getDrawable());
     scene.addDrawable(creature.getDrawable());
-    
+
+    // Create world
+    Simulation::World world;
+    world.terrain = terrainObject.getTerrain();
+    // Add creature
+    world.addEntity(creature.getEntity());
 
     // TODO: Make this loop timer based 
     while(1){
+        // TODO: Make some way for this to be in a "scene" like thing
+        // but still keep Rendering::Scene completely isolated 
         creature.tick();
+        // Tick World
+        world.tick();
+        // Tick Graphics Engine
         if(graphicsEngine->tick(scene, *camera, sun) < 0) break;
     }
 
