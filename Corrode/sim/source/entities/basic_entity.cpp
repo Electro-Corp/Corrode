@@ -79,7 +79,7 @@ void BasicEntity::tick(World* world){
         // Snap to the ground
         this->transform.setPosition(glm::vec3(
             nextX,
-            world->terrain->surfaceHeightAt(cellX, cellZ) + 2.0f,
+            world->terrain->surfaceHeightAt(cellX, cellZ) + 2.0,
             nextZ
         ));
     }else{

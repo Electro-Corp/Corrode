@@ -43,8 +43,8 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     glEnable(GL_MULTISAMPLE);
     // Enable SRGB Gamma correction
     glEnable(GL_FRAMEBUFFER_SRGB);
-    // Enable culling
-    glEnable(GL_CULL_FACE);
+    // Enable culling (not for now... it messes up jit's rendering cuz the verts arent CCW)
+    // glEnable(GL_CULL_FACE);
     // Enable stencil testing 
     glEnable(GL_STENCIL_TEST);
     
@@ -81,8 +81,8 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
 void GraphicsEngine::configureShadows(Camera& cam, Light light){
     lightProjection = glm::ortho(-(float)mapSize + 100, (float)mapSize + 100, -(float)mapSize + 100, (float)mapSize + 100, shadowNear, shadowFar);
     lightView = glm::lookAt(
-        -light.position,
-        glm::vec3(0.0, 0.0, 0.0),
+        light.position,
+        glm::normalize(glm::vec3(0.0) - light.position),
         glm::vec3(0.0, 1.0, 0.0)
     );
     lightSpaceMatrix = lightProjection * lightView;
@@ -119,11 +119,9 @@ int GraphicsEngine::tick(Scene scene, Camera& cam, Light sun){
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFB);
         glClear(GL_DEPTH_BUFFER_BIT);
         // Render with depth shader
-        glCullFace(GL_FRONT);
         for(auto& gm : scene.getObjects()){
             gm->draw(cam, depthShader->getShaderProgram());
         }
-        glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         // Reset view port

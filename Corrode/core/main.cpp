@@ -28,7 +28,7 @@ std::unique_ptr<Rendering::GraphicsEngine> graphicsEngine;
 
 int main(int argv, char* args[]){
     // Generate settings
-    Rendering::EngineInitOptions gOptions = {"Corrode", 600, 800, 1024, MAP_SIZE};
+    Rendering::EngineInitOptions gOptions = {"Corrode", 600, 800, 1024 * ((MAP_SIZE) / 256), MAP_SIZE};
     gOptions.clearColor = {12.0f, 50.0f, 100.0f, 255.0f};
     // Check if args override
     if(Util::doesParamExist(const_cast<char*>("-width"), argv, args)){
@@ -70,7 +70,7 @@ int main(int argv, char* args[]){
         glm::vec3(1.0, 1.0, 1.0), // ambient
         glm::vec3(1.0, 1.0, 1.0), // specular
         glm::vec3(1.0, 1.0, 1.0), // diffuse
-        glm::vec3(500.0f, 350.0f, 500.0f) // position
+        glm::vec3(500.0f, 250.0f, 500.0f) // position
     );
 
     // Create scene

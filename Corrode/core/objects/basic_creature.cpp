@@ -11,17 +11,12 @@ BasicCreature::BasicCreature(){
         this->vertices.emplace_back(
             glm::vec3(rawVertexData[i], rawVertexData[i + 1], rawVertexData[i + 2]),
             glm::vec2(0, 0), // unnessary for cube.vert/frag
-            glm::vec3(rawVertexData[i + 3], rawVertexData[i + 4], rawVertexData[i + 6])
+            glm::vec3(rawVertexData[i + 3], rawVertexData[i + 4], rawVertexData[i + 5])
         );
     }
 
     // Cube indices
-    ind.insert(ind.end(), {0, 1, 2, 2, 3, 0}); // front
-    ind.insert(ind.end(), {1, 5, 6, 6, 2, 1}); // right
-    ind.insert(ind.end(), {5, 4, 7, 7, 6, 5}); // back
-    ind.insert(ind.end(), {4, 0, 3, 3, 7, 4}); // left
-    ind.insert(ind.end(), {3, 2, 6, 6, 7, 3}); // top
-    ind.insert(ind.end(), {4, 5, 1, 1, 0, 4}); // bottom
+    for(int i = 0; i < 36; i++) ind.push_back(i);
     
     // Shader
     Rendering::Shader* vertex = new Rendering::Shader("../assets/shaders/cube.vert", Rendering::VERTEX);
