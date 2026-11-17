@@ -70,7 +70,7 @@ int main(int argv, char* args[]){
         glm::vec3(1.0, 1.0, 1.0), // ambient
         glm::vec3(1.0, 1.0, 1.0), // specular
         glm::vec3(1.0, 1.0, 1.0), // diffuse
-        glm::vec3(500.0f, 250.0f, 500.0f) // position
+        glm::vec3(500.0f, 350.0f, 500.0f) // position
     );
 
     // Create scene

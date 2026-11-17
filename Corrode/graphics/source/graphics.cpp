@@ -79,7 +79,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
 }
 
 void GraphicsEngine::configureShadows(Camera& cam, Light light){
-    lightProjection = glm::ortho(-(float)mapSize + 100, (float)mapSize + 100, -(float)mapSize + 100, (float)mapSize + 100, shadowNear, shadowFar);
+    lightProjection = glm::ortho(-(float)mapSize - 100, (float)mapSize + 100, -(float)mapSize - 100, (float)mapSize + 100, shadowNear, shadowFar);
     lightView = glm::lookAt(
         light.position,
         glm::normalize(glm::vec3(0.0) - light.position),
