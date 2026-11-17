@@ -82,7 +82,7 @@ void Mesh::draw(const Rendering::Camera& cam, unsigned int overrideShader){
     unsigned int normalN = 1;
     unsigned int roughN = 1;
     for(int i = 0; i < textures.size(); i++){
-        glActiveTexture(GL_TEXTURE0 + i);
+        glActiveTexture(GL_TEXTURE1 + i);
         std::string num;
         std::string name = textures[i].type;
         // Spec or diff
@@ -96,7 +96,7 @@ void Mesh::draw(const Rendering::Camera& cam, unsigned int overrideShader){
             num = std::to_string(roughN++);
         }
         int matLocation = glGetUniformLocation(overrideShader, std::string{"material." + name + num}.c_str());
-        glUniform1i(matLocation, i);
+        glUniform1i(matLocation, i + 1);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);

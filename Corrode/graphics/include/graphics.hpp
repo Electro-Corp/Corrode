@@ -24,7 +24,7 @@ namespace Rendering{
         char name[32]; // Window title
         int h, w; // Window height and width
         Color clearColor; // OpenGL clear color
-        unsigned int shadowSize = 1024;
+        unsigned int shadowSize = 1024, mapSize = 256;
     };
 
     class GraphicsEngine{
@@ -38,12 +38,13 @@ namespace Rendering{
         // Shadow stuff
         unsigned int depthMapFB, depthMap;
         unsigned int shadowWidth, shadowHeight;
-        float shadowNear = 1.0f, shadowFar = 10.f;
+        float shadowNear = 0.5f, shadowFar = 2048.f;
         std::unique_ptr<ShaderProgram> depthShader;
         glm::mat4 lightProjection, lightView, lightSpaceMatrix;
+        unsigned int mapSize;
 
         // Configure shadow shader/matrices
-        void configureShadows(Light light);
+        void configureShadows(Camera& cam, Light light);
 
         // Window resize callback
         static void windowResizedCallback(GLFWwindow* window, int w, int h){ 

@@ -6,16 +6,18 @@ layout (location = 2) in vec3 aNormal;
 
 out vec3 FragPos;
 out vec3 Normal;
+out vec4 FragPosLight;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;
+uniform mat4 lSpaceMatrix;
 
 uniform mat4 transform;
  
 void main() {
     FragPos = vec3(model * vec4(aPos, 1.0));
     Normal = mat3(transpose(inverse(model))) * aNormal;  
-
+    FragPosLight = lSpaceMatrix * vec4(FragPos, 1.0);
     gl_Position = (proj * view) * vec4(FragPos, 1.0);
 }

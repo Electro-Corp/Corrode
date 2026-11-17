@@ -21,10 +21,10 @@
 // C++ STD
 #include <vector>
 
-TerrainObject::TerrainObject(){
+TerrainObject::TerrainObject(unsigned int size){
     Util::Log("TerrainObject::TerrainObject", "Generating Terrain, please wait...");
     // Generate terrain
-    this->terrain = std::make_shared<Simulation::Terrain>(256, 256);
+    this->terrain = std::make_shared<Simulation::Terrain>(size, size);
     Simulation::FlatTerrainGenerator flatTerrainGenerator(100.0f);
     Simulation::NoiseTerrainGenerator noiseTerrainGenerator;
     // constexpr TerrainDebugView debugView = TerrainDebugView::WaterClassification;

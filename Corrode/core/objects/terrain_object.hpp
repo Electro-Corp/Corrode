@@ -26,7 +26,7 @@ private:
     std::vector<Drawable::Vertex> vertices;
     std::vector<std::uint32_t> ind;
 public:
-    TerrainObject();
+    TerrainObject(unsigned int size);
 
     void tick() override;
 
