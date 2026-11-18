@@ -25,7 +25,8 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     window = glfwCreateWindow(windowWidth, windowHeight, initOptions.name, nullptr, nullptr);
     glfwMakeContextCurrent(window);
     // Set user pointer
-	glfwSetWindowUserPointer(window, this);
+    userPointers.gEngine = this;
+	glfwSetWindowUserPointer(window, &userPointers);
 
     // Init GLAD
     if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)){
@@ -123,11 +124,11 @@ int GraphicsEngine::tick(Scene scene, Camera& cam, Light sun){
             gm->draw(cam, depthShader->getShaderProgram());
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-        // Reset view port
-        glViewport(0, 0, this->windowWidth, this->windowHeight);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
+
+    // Reset view port
+    glViewport(0, 0, this->windowWidth, this->windowHeight);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Render for real
     for(auto& gm : scene.getObjects()){

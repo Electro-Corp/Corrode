@@ -3,7 +3,8 @@
     camera.hpp
 */
 
-#include <Camera.hpp>
+#include <camera.hpp>
+#include <graphics.hpp>
 
 namespace Rendering{
 
@@ -60,9 +61,9 @@ CameraController::CameraController(std::shared_ptr<Camera> camera) {
     yaw = 180.0f;
 }
 
-void CameraController::attachWindow(GLFWwindow* window) {
+void CameraController::attachWindow(GLFWwindow* window, UserPointers* pointers) {
     syncOrientation();
-    glfwSetWindowUserPointer(window, this);
+    pointers->camera = this;
     glfwSetCursorPosCallback(window, mouseCallback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
@@ -88,7 +89,7 @@ void CameraController::handleInput(GLFWwindow *window, float deltaTime) {
 }
 
 void CameraController::mouseCallback(GLFWwindow* window, double x, double y) {
-    CameraController* controller = static_cast<CameraController*>(glfwGetWindowUserPointer(window));
+    CameraController* controller = static_cast<UserPointers*>(glfwGetWindowUserPointer(window))->camera;
     if(controller != nullptr) controller->handleMouse(x, y);
 }
 

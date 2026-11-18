@@ -16,6 +16,10 @@
 #include <shader.hpp>
 
 namespace Rendering{
+    // Forward declare GraphicsEngine 
+    class GraphicsEngine;
+    
+    // Color
     struct Color{
         float r, g, b, a;
     };
@@ -25,6 +29,11 @@ namespace Rendering{
         int h, w; // Window height and width
         Color clearColor; // OpenGL clear color
         unsigned int shadowSize = 1024, mapSize = 256;
+    };
+
+    struct UserPointers {
+        GraphicsEngine* gEngine;
+        CameraController* camera;
     };
 
     class GraphicsEngine{
@@ -48,8 +57,8 @@ namespace Rendering{
 
         // Window resize callback
         static void windowResizedCallback(GLFWwindow* window, int w, int h){ 
-            auto renderer = reinterpret_cast<GraphicsEngine*>(glfwGetWindowUserPointer(window));
-            renderer->setDim(w, h);
+            UserPointers* pointers = static_cast<UserPointers*>(glfwGetWindowUserPointer(window));
+            pointers->gEngine->setDim(w, h);
             glViewport(0, 0, w, h); 
         }
     public:
@@ -66,5 +75,6 @@ namespace Rendering{
         // Vars
         double lastFrameTime = 0.0;
 
+        UserPointers userPointers;
     };
 }

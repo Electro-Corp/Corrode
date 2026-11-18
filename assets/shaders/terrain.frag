@@ -62,7 +62,7 @@ void main() {
     // Attenuation and distance
     float distance = length(light.position  - FragPos);
     //float atten = 1.0 / ((distance * distance) * (1.0 + 0.35 * distance * 0.44));
-    float atten = (1.0 / distance) * 50;
+    float atten = (1.0 / (distance)) * 50;
 
     vec3 ambientAtten = light.ambient * atten;
     vec3 specularAtten = light.specular * atten;
