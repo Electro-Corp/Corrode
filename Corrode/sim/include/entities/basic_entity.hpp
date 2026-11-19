@@ -23,14 +23,16 @@ namespace Simulation {
     private:
         // Stats
         double hunger, thirst;
+        // Limits
+        double hungerLimit, thirstLimit;
         // Stat modifiers
         double modHunger, modThirst;
         // To move our jit
         double xOff, zOff, targetX, targetZ;
         // His current goal
         Goal goal;
-        // Dead?
-        bool dead;
+        // One time things
+        bool dead, outOfWater;
 
         // Update stats
         void updateStats();
