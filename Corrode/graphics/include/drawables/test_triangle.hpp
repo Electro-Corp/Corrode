@@ -24,6 +24,8 @@ namespace Drawable{
         TestTriangle();
 
         void draw(const Rendering::Camera& cam) override;
+
+        void draw(const Rendering::Camera& cam, unsigned int overrideShader) { draw(cam); }
     };
 
 }

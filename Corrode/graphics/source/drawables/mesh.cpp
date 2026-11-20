@@ -58,15 +58,19 @@ void Mesh::initMesh(){
 }
 
 void Mesh::draw(const Rendering::Camera& cam){
+    draw(cam, this->shaderID);
+}
+
+void Mesh::draw(const Rendering::Camera& cam, unsigned int overrideShader){
     // Use shader program
-    glUseProgram(shaderID);
+    glUseProgram(overrideShader);
     // Apply transform
-    int transformLocation = glGetUniformLocation(shaderID, "transform");
+    int transformLocation = glGetUniformLocation(overrideShader, "transform");
     glUniformMatrix4fv(transformLocation, 1, GL_FALSE, glm::value_ptr(transform.transform));
     // Setup camera
-    int modelLocation = glGetUniformLocation(shaderID, "model");
-    int viewLocation = glGetUniformLocation(shaderID, "view");
-    int projLocation = glGetUniformLocation(shaderID, "proj");
+    int modelLocation = glGetUniformLocation(overrideShader, "model");
+    int viewLocation = glGetUniformLocation(overrideShader, "view");
+    int projLocation = glGetUniformLocation(overrideShader, "proj");
     // Set values within shader
     glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(transform.transform));
     glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(const_cast<Rendering::Camera&>(cam).getView()));
@@ -78,7 +82,7 @@ void Mesh::draw(const Rendering::Camera& cam){
     unsigned int normalN = 1;
     unsigned int roughN = 1;
     for(int i = 0; i < textures.size(); i++){
-        glActiveTexture(GL_TEXTURE0 + i);
+        glActiveTexture(GL_TEXTURE1 + i);
         std::string num;
         std::string name = textures[i].type;
         // Spec or diff
@@ -91,8 +95,8 @@ void Mesh::draw(const Rendering::Camera& cam){
         }else if(name == "texture_roughness"){
             num = std::to_string(roughN++);
         }
-        int matLocation = glGetUniformLocation(shaderID, std::string{"material." + name + num}.c_str());
-        glUniform1i(matLocation, i);
+        int matLocation = glGetUniformLocation(overrideShader, std::string{"material." + name + num}.c_str());
+        glUniform1i(matLocation, i + 1);
         glBindTexture(GL_TEXTURE_2D, textures[i].id);
     }
     glActiveTexture(GL_TEXTURE0);

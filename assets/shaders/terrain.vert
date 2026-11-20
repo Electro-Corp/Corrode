@@ -7,20 +7,22 @@ layout (location = 2) in vec3 aNormal;
 out vec3 FragPos;
 out vec2 TexCoords;
 out vec3 Normal;
+out vec4 FragPosLight;
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 proj;
+uniform mat4 lSpaceMatrix;
 
 uniform mat4 transform;
 uniform bool rawNoiseFlat;
  
-void main(){
+void main() {
     vec3 position = aPos;
     if(rawNoiseFlat) position.y = 0.0;
     FragPos = vec3(model * vec4(position, 1.0));
     Normal = mat3(transpose(inverse(model))) * aNormal;  
     TexCoords = aTexCoords;
-
+    FragPosLight = lSpaceMatrix * vec4(FragPos, 1.0);
     gl_Position = (proj * view) * vec4(FragPos, 1.0);
 }

@@ -21,6 +21,7 @@ using namespace glm;
 
 namespace Rendering {
     class CameraController;
+    struct UserPointers;
 
     struct CameraMats {
 		alignas(16) mat4 view;
@@ -96,7 +97,7 @@ namespace Rendering {
             void syncOrientation();
         public:
             CameraController(std::shared_ptr<Camera> camera);
-            void attachWindow(GLFWwindow* window);
+            void attachWindow(GLFWwindow* window, UserPointers* pointers);
             void handleInput(GLFWwindow *window, float deltaTime);
     };
 }

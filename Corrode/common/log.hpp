@@ -7,6 +7,8 @@
 #include <string>
 #include <iostream>
 
+#define LOG(A,B) Util::Log(A, B)
+
 namespace Util{
     // Log a message to std::out 
     // TODO: Make option to log to file as well and add timestamp

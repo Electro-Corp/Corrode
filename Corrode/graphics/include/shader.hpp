@@ -9,6 +9,7 @@
 #include <sstream>
 // glm
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Rendering{
     enum ShaderType{
@@ -54,6 +55,7 @@ namespace Rendering{
         void setInt(const std::string& name, const int value) const;
         void setFloat(const std::string& name, const float value) const;
         void setVec3(const std::string &name, const glm::vec3 value) const;
+        void setMat4(const std::string &name, const glm::mat4 value) const;
 
         // Getters
         unsigned int getShaderProgram(){ return shaderProgram; }

@@ -9,6 +9,8 @@
 // Sim
 #include <world.hpp>
 
+#define MAX_STATS 256
+
 namespace Simulation{
     class World;
 
@@ -17,9 +19,17 @@ namespace Simulation{
     public:
         Entity();
 
+        // Transform
         Transform transform;
+        // Stats
+        double stats[MAX_STATS];
+        double statMods[MAX_STATS];
+        double statLimits[MAX_STATS];
 
         virtual void tick(World* world) = 0;
+
+        // Universal functions to implement
+        virtual void move(double dx, double dy, World* world) = 0;
 
         virtual ~Entity() = default;
     };

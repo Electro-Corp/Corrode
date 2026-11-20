@@ -71,6 +71,7 @@ namespace Drawable{
         void initMesh();
 
         void draw(const Rendering::Camera& cam) override;
+		void draw(const Rendering::Camera& cam, unsigned int overrideShader) override;
 
 		// Getters/Setters
 		float* packVerts();

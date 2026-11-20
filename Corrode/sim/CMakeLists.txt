@@ -16,6 +16,10 @@ add_library(simulation SHARED
     source/passes/vegetation_initialization_pass.cpp
     # Entities
     source/entities/basic_entity.cpp
+    # Behaviors
+    source/behavior.cpp
+    source/behaviours/roam_behavior.cpp
+    # source/behaviors/find_food_behavior.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

@@ -39,7 +39,7 @@ private:
     void updateDebugTexture();
     void updateDebugModeUniforms();
 public:
-    TerrainObject();
+    TerrainObject(unsigned int size);
 
     void tick() override;
     void tick(GLFWwindow* window);

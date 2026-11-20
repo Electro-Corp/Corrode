@@ -3,6 +3,7 @@ out vec4 FragColor;
 
 in vec3 FragPos;
 in vec3 Normal;
+in vec4 FragPosLight;
 
 struct Light {
     vec3 position;
@@ -18,9 +19,31 @@ struct Light {
 
 uniform Light light;
 uniform vec3 viewPosition;
+uniform sampler2D shadowMap;
 
-void main()
-{
+float shadowCalculation(vec4 lSpace, vec3 lDir, vec3 norm){
+    // Perspective divide
+    vec3 proj = lSpace.xyz / lSpace.w;
+    proj = proj * 0.5 + 0.5;
+    if(proj.z > 1.0) return 0.0;
+
+    float closestDepth = texture(shadowMap, proj.xy).r;
+    float currentDepth = proj.z;
+    float bias = max(0.005 * (1.0 - dot(norm, lDir)), 0.001);
+
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
+    for(int x = -1; x <= 1; ++x){
+        for(int y = -1; y <= 1; ++y){
+            float pcD = texture(shadowMap, proj.xy + vec2(x, y) * texelSize).r;
+            shadow += currentDepth - bias > closestDepth ? 1.0 : 0.0;
+        }
+    }
+
+    return shadow /= 9.0;
+}
+
+void main() {
     //vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
 
     vec3 norm = normalize(Normal);
@@ -44,6 +67,10 @@ void main()
     float s = pow(max(dot(vDir, rDir), 0.0), 32);
     vec3 spec = sS * s * lColor;
 
-    vec3 res = (amb + diff + spec) * vec3(1.0, 0.1, 0.1);
-    FragColor = vec4(res, 1.0);
+    // Shadow
+    float shadow = shadowCalculation(FragPosLight, lDir, norm);
+    
+    vec3 lighting = (amb + (1.0 - shadow) * (diff + spec)) * vec3(1.0, 0.1, 0.1);
+
+    FragColor = vec4(lighting, 1.0);
 }
