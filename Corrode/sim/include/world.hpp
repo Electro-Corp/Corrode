@@ -23,9 +23,11 @@ namespace Simulation {
         // Add entity
         void addEntity(std::shared_ptr<Entity> e){ entities.push_back(e); }
 
-        void tick();
+        void tick(double delta);
 
         // Terrain
         std::shared_ptr<Terrain> terrain;
+        // Delta time
+        double delta;
     };
 }

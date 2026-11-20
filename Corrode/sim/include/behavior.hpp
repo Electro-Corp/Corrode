@@ -15,6 +15,6 @@ namespace Simulation{
 
         virtual void execute(Entity* entity, World* terrain) = 0;
 
-        double weight;
+        double weight, priority = 1.0;
     };
 }

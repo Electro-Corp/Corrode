@@ -19,7 +19,8 @@ add_library(simulation SHARED
     # Behaviors
     source/behavior.cpp
     source/behaviours/roam_behavior.cpp
-    # source/behaviors/find_food_behavior.cpp
+    source/behaviours/find_food_behavior.cpp
+    source/behaviours/eat_behavior.cpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR}/external)

@@ -30,6 +30,7 @@ namespace Simulation{
 
         // Universal functions to implement
         virtual void move(double dx, double dy, World* world) = 0;
+        virtual void stop() = 0;
 
         virtual ~Entity() = default;
     };

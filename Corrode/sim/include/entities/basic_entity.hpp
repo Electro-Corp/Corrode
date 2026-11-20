@@ -36,13 +36,17 @@ namespace Simulation {
         FindFoodBehavior findFood;
         EatBehavior eat;
 
+        // Used for quickly figuring out what the highest weight is
+        std::vector<Behavior*> behaviors;
+
         // Update stats
-        void updateStats();
+        void updateStats(World* world);
     public:
         BasicEntity();
 
         void tick(World* world) override;
         
         void move(double dx, double dy, World* world) override;
+        void stop() override;
     };
 } // SIMULATION

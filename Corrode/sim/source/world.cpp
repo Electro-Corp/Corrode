@@ -10,7 +10,9 @@ World::World(){
 
 }
 
-void World::tick(){
+void World::tick(double delta){
+    this->delta = delta;
+    // Tick all entities
     for(auto& e : entities){
         e->tick(this);
     }

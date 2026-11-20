@@ -22,7 +22,7 @@
 #define VERSION_MINOR 1
 
 #define MAP_SIZE 256
-#define JITS 1863
+#define JITS 2
 
 // Global pointer for the graphics engine
 std::unique_ptr<Rendering::GraphicsEngine> graphicsEngine;
@@ -99,14 +99,15 @@ int main(int argv, char* args[]){
         world.addEntity(creatures[i].getEntity());
     }
 
-    // TODO: Make this loop timer based 
+    double lastTime = glfwGetTime();
     while(1){
         // TODO: Make some way for this to be in a "scene" like thing
         // but still keep Rendering::Scene completely isolated 
         creature.tick();
         for(int i = 0; i < creatures.size(); i++) creatures[i].tick();
         // Tick World
-        world.tick();
+        world.tick(glfwGetTime() - lastTime);
+        lastTime = glfwGetTime();
         // Tick Graphics Engine
         if(graphicsEngine->tick(scene, *camera, sun) < 0) break;
     }
