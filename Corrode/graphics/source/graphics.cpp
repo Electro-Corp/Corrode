@@ -45,7 +45,7 @@ GraphicsEngine::GraphicsEngine(EngineInitOptions initOptions){
     // Enable SRGB Gamma correction
     glEnable(GL_FRAMEBUFFER_SRGB);
     // Enable culling (not for now... it messes up jit's rendering cuz the verts arent CCW)
-    // glEnable(GL_CULL_FACE);
+    //glEnable(GL_CULL_FACE);
     // Enable stencil testing 
     glEnable(GL_STENCIL_TEST);
     

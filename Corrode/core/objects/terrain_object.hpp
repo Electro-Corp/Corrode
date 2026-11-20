@@ -25,7 +25,7 @@ private:
     // Vertices, indices, and normals
     std::vector<Drawable::Vertex> vertices;
     std::vector<std::uint32_t> ind;
-    TerrainDebugView activeDebugView_ = TerrainDebugView::RawPerlinNoise;
+    TerrainDebugView activeDebugView_ = TerrainDebugView::VegetationGradient;
     Simulation::TerrainGenerationSettings terrainSettings_;
     unsigned int diffuseTextureID_ = 0;
     float minimumElevation_ = 0.0f;

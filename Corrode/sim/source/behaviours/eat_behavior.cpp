@@ -16,7 +16,7 @@ EatBehavior::EatBehavior(){
 // Execute this behavior
 void EatBehavior::execute(Entity* entity, World* world){
     entity->stats[HUNGER] -= entity->statMods[HUNGER] * 2;
-    world->terrain->cellAt(entity->transform.getPosition().x, entity->transform.getPosition().z).vegetation.amount -= entity->statMods[HUNGER] * 2;
+    world->terrain->cellAt(entity->transform.getPosition().x, entity->transform.getPosition().z).vegetation.amount -= entity->statMods[HUNGER] * 1.2 * world->delta;
 
     if(entity->stats[HUNGER] > entity->statLimits[HUNGER]){
         priority = 10.0;

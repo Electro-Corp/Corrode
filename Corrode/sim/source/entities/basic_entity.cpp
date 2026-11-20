@@ -13,7 +13,7 @@ BasicEntity::BasicEntity(){
     this->xOff = 0.0;
     this->zOff = 0.0;
     // Setup modfiers
-    statMods[HUNGER] = 0.05 + (rand() % 5) / 5;
+    statMods[HUNGER] = ((rand() % 10) * rand() % 10);
     statMods[THIRST] = 0.00; // Don't do thirst yet
     // Setup limits
     statLimits[HUNGER] = 45 + (rand() % 10);
@@ -40,7 +40,7 @@ void BasicEntity::tick(World* world){
         double hBehaviorW = 0.0; // Save the highest weight so we dont need to make unnnessary calls to vector[id]
         int id = 0; 
         for(int i = 0; i < behaviors.size(); i++){
-            if(behaviors[i]->weight > hBehaviorW){
+            if((behaviors[i]->weight * behaviors[i]->priority) > hBehaviorW){
                 hBehaviorW = behaviors[i]->weight * behaviors[i]->priority;
                 id = i;
             }
@@ -100,9 +100,10 @@ void BasicEntity::stop(){
 }
 
 void BasicEntity::updateStats(World* world){
+    double movementPenalty = ((((xOff * xOff) + (zOff * zOff)) * 500) + 1);
     // Update all stats
-    stats[HUNGER] += statMods[HUNGER];
-    stats[THIRST] += statMods[THIRST];
+    stats[HUNGER] += statMods[HUNGER] * world->delta * movementPenalty * 10;
+    stats[THIRST] += statMods[THIRST] * world->delta;
     stats[HAPPINESS] = 100 - ((stats[HUNGER] / 2) + (stats[THIRST] / 2));
 
     // Check if we're dead
@@ -113,13 +114,13 @@ void BasicEntity::updateStats(World* world){
     // Update weights
     roam.weight = (stats[HAPPINESS] + stats[SEXUAL]) / (stats[FEAR] + 1);
     findFood.weight = stats[HUNGER] / stats[HAPPINESS];
-    eat.weight = world->terrain->cellAt(transform.getPosition().x, transform.getPosition().z).vegetation.amount * 5 + stats[HUNGER];
+    eat.weight = (world->terrain->cellAt(transform.getPosition().x, transform.getPosition().z).vegetation.amount * 5) + stats[HUNGER];
 
-    LOG("BasicEntity::updateStats", std::string{
-        "roam[" + std::to_string(roam.weight) + "], "
-        + "findFood[" + std::to_string(findFood.weight) + "], "
-        + "eat[" + std::to_string(eat.weight) + "]"
-    });
+    // LOG("BasicEntity::updateStats", std::string{
+    //     "roam[" + std::to_string(roam.weight) + "], "
+    //     + "findFood[" + std::to_string(findFood.weight) + "], "
+    //     + "eat[" + std::to_string(eat.weight) + "]"
+    // });
 }
 
 } // SIMULATION
