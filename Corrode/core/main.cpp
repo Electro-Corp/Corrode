@@ -103,6 +103,7 @@ int main(int argv, char* args[]){
     while(1){
         // TODO: Make some way for this to be in a "scene" like thing
         // but still keep Rendering::Scene completely isolated 
+        terrainObject.tick(graphicsEngine->getWindow());
         creature.tick();
         for(int i = 0; i < creatures.size(); i++) creatures[i].tick();
         // Tick World

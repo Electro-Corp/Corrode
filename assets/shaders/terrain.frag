@@ -27,6 +27,7 @@ struct Light {
 uniform Light light;
 uniform Material material;
 uniform vec3 viewPosition;
+uniform bool rawNoiseUnlit;
 uniform sampler2D shadowMap;
 
 float shadowCalculation(vec4 lSpace, vec3 lDir, vec3 norm){
@@ -52,6 +53,11 @@ float shadowCalculation(vec4 lSpace, vec3 lDir, vec3 norm){
 }
 
 void main() {
+    if(rawNoiseUnlit) {
+        FragColor = vec4(texture(material.texture_diffuse1, TexCoords).rgb, 1.0);
+        return;
+    }
+
     vec3 norm = normalize(cross(dFdx(FragPos), dFdy(FragPos)));
 
     vec3 lDir = normalize(light.position - FragPos);

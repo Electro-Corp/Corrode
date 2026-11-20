@@ -25,6 +25,7 @@ add_library(simulation SHARED
 
 include_directories(${CMAKE_SOURCE_DIR}/external)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/sim/include)
+include_directories(${CMAKE_SOURCE_DIR}/Corrode/sim/include/entities)
 include_directories(${CMAKE_SOURCE_DIR}/Corrode/)
 
 
