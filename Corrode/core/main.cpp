@@ -22,7 +22,7 @@
 #define VERSION_MINOR 1
 
 #define MAP_SIZE 256
-#define JITS 256
+#define JITS 1863
 
 // Global pointer for the graphics engine
 std::unique_ptr<Rendering::GraphicsEngine> graphicsEngine;

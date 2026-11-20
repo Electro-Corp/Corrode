@@ -6,33 +6,35 @@
 
 // Sim
 #include <entity.hpp>
+// Behaviors
+#include <behaviours/roam_behavior.hpp>
+#include <behaviours/find_food_behavior.hpp>
+#include <behaviours/eat_behavior.hpp>
+
 // Common
 #include <common/log.hpp>
 
 namespace Simulation {
-    enum Goal {
-        IDLE,
-        ROAM,
-        FIND_FOOD,
-        GO_TO_FOOD,
-        EAT,
-        FIND_WATER
+    enum Stats {
+        HUNGER,
+        THIRST,
+        HAPPINESS,
+        FEAR,
+        ANGER,
+        SEXUAL
     };
 
     class BasicEntity : public Entity {
     private:
-        // Stats
-        double hunger, thirst;
-        // Limits
-        double hungerLimit, thirstLimit;
-        // Stat modifiers
-        double modHunger, modThirst;
         // To move our jit
         double xOff, zOff, targetX, targetZ;
-        // His current goal
-        Goal goal;
-        // One time things
+        // One time variables
         bool dead, outOfWater;
+
+        // His... desires!
+        RoamBehavior roam;
+        FindFoodBehavior findFood;
+        EatBehavior eat;
 
         // Update stats
         void updateStats();
@@ -40,5 +42,7 @@ namespace Simulation {
         BasicEntity();
 
         void tick(World* world) override;
+        
+        void move(double dx, double dy, World* world) override;
     };
 } // SIMULATION
