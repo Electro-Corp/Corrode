@@ -11,7 +11,9 @@ enum class TerrainDebugView {
     HeightGradient,
     CoordinateGrid,
     FertilityGradient,
-    VegetationGradient
+    VegetationGradient,
+    RawPerlinNoise,
+    Count
 };
 
 RGB terrainDebugColor(
@@ -21,5 +23,8 @@ RGB terrainDebugColor(
     std::size_t z,
     float minimumElevation,
     float maximumElevation,
-    float waterLevel
+    float waterLevel,
+    float rawSample = 0.0f,
+    float rawMinimum = 0.0f,
+    float rawMaximum = 1.0f
 );

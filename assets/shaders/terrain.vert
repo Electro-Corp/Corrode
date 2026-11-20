@@ -13,9 +13,12 @@ uniform mat4 view;
 uniform mat4 proj;
 
 uniform mat4 transform;
+uniform bool rawNoiseFlat;
  
 void main(){
-    FragPos = vec3(model * vec4(aPos, 1.0));
+    vec3 position = aPos;
+    if(rawNoiseFlat) position.y = 0.0;
+    FragPos = vec3(model * vec4(position, 1.0));
     Normal = mat3(transpose(inverse(model))) * aNormal;  
     TexCoords = aTexCoords;
 
