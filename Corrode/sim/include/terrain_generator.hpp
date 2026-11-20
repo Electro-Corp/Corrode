@@ -11,9 +11,10 @@ namespace Simulation{
 
     struct TerrainGenerationSettings {
         double seed = 0;
-        float frequency = 1.0f;
-        int octaves = 8;
-        float scale = 50.0f;
+        float baseFrequency = 1.0f;
+        int baseOctaves = 8;
+        float baseRedistribution = 1.2f;
+        float baseScale = 50.0f;
         float water_level = 0.0f;
     };
 

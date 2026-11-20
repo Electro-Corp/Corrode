@@ -8,6 +8,8 @@
 #include <terrain.hpp>
 #include <terrain_generator.hpp>
 
+#include <cmath>
+
 namespace Simulation {
 
     namespace {
@@ -25,7 +27,7 @@ namespace Simulation {
             double amplitude = 1.0;
             double octaveFrequency = frequency;
             double maxAmplitude = 0.0;
-            for(int octave = 0; octave < settings.octaves; octave++) {
+            for(int octave = 0; octave < settings.baseOctaves; octave++) {
                 total += perlin.perlin(
                     static_cast<double>(x) / width * octaveFrequency,
                     static_cast<double>(z) / depth * octaveFrequency,
@@ -39,7 +41,12 @@ namespace Simulation {
             double height = (normalizedNoise + 1.0) * 0.5;
             if(height < 0.0) height = 0.0;
             if(height > 1.0) height = 1.0;
-            return (static_cast<float>(height) - 0.5f) * settings.scale;
+            const float signedHeight = (static_cast<float>(height) - 0.5f) * settings.baseScale;
+            const float redistributedMagnitude = std::pow(
+                std::abs(signedHeight),
+                settings.baseRedistribution
+            );
+            return std::copysign(redistributedMagnitude, signedHeight);
         }
 
     }
@@ -51,10 +58,10 @@ namespace Simulation {
             for(std::size_t x = 0; x < terrain.width(); x++) {
                 const std::size_t width = terrain.width();
                 const std::size_t depth = terrain.depth();
-                const float topLeft = sampleHeight(perlin, x, z, width, depth, settings.frequency, settings);
-                const float topRight = sampleHeight(perlin, x + 1, z, width, depth, settings.frequency, settings);
-                const float bottomRight = sampleHeight(perlin, x + 1, z + 1, width, depth, settings.frequency, settings);
-                const float bottomLeft = sampleHeight(perlin, x, z + 1, width, depth, settings.frequency, settings);
+                const float topLeft = sampleHeight(perlin, x, z, width, depth, settings.baseFrequency, settings);
+                const float topRight = sampleHeight(perlin, x + 1, z, width, depth, settings.baseFrequency, settings);
+                const float bottomRight = sampleHeight(perlin, x + 1, z + 1, width, depth, settings.baseFrequency, settings);
+                const float bottomLeft = sampleHeight(perlin, x, z + 1, width, depth, settings.baseFrequency, settings);
 
                 terrain.setCornerHeight(x, z, TerrainCorner::TopLeft, topLeft);
                 terrain.setCornerHeight(x, z, TerrainCorner::TopRight, topRight);
